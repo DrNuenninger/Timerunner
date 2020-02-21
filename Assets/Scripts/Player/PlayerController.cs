@@ -9,11 +9,11 @@ public class PlayerController : MonoBehaviour
     private float acceleration = 10f;
     private Rigidbody2D component;
 
-    public Transform ground;
+    public Transform groundCheckPoint;
     public float groundCheckRadius;
     public LayerMask groundLayer;
 
-
+    private bool isOnGround;
 
     void Start()
     {
@@ -49,10 +49,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("hSpeed = " + hSpeed);
 
         //Jumping
-        if (Input.GetKeyDown(KeyCode.Space))
+        isOnGround = Physics2D.OverlapCircle
+            (groundCheckPoint.position,groundCheckRadius,groundLayer);
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             component.velocity = new Vector2(hSpeed, jumpSpeed);
-            
         }
 
 
