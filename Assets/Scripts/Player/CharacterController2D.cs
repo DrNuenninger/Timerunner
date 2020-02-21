@@ -61,15 +61,15 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 
-	public void Move(float move, bool crouched, bool jump)
+	public void Move(float move, bool crouch, bool jump)
 	{
 		// If crouching, check to see if the character can stand up
-		if (!crouched && m_wasCrouching)
+		if (!crouch && m_wasCrouching)
 		{
 			// If the character has a ceiling preventing them from standing up, keep them crouching
 			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
 			{
-				crouched = true;
+				crouch = true;
 			}
 		}
 
@@ -78,7 +78,7 @@ public class CharacterController2D : MonoBehaviour
 		{
 
 			// If crouching
-			if (crouched)
+			if (crouch)
 			{
 				if (!m_wasCrouching)
 				{
