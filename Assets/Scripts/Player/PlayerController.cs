@@ -5,9 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float hSpeed = 0f;
-    private float vSpeed = 0f;
+    public float jumpSpeed = 10f;
     private float acceleration = 10f;
     private Rigidbody2D component;
+
+    public Transform ground;
+    public float groundCheckRadius;
+    public LayerMask groundLayer;
 
 
 
@@ -38,30 +42,22 @@ public class PlayerController : MonoBehaviour
             hSpeed += 0.1f;
         }
 
-        //Limits hSpeed & vSpeed each frame
+        //Limits hSpeed each frame
         if (hSpeed > 5) hSpeed = 5;
         if (hSpeed < -5) hSpeed = -5;
 
         Debug.Log("hSpeed = " + hSpeed);
 
-        //Vertical Movement
-
-        //Falls if no ground below (TODO)
-        if (vSpeed > 0)
-        {
-            vSpeed -= 0.1f;
-        }
-
-        if (vSpeed < 0) vSpeed = 0;
-
+        //Jumping
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            vSpeed = 10f;
+            component.velocity = new Vector2(hSpeed, jumpSpeed);
+            
         }
 
 
 
-        component.velocity = new Vector2(hSpeed, vSpeed);
+        component.velocity = new Vector2(hSpeed, component.velocity.y);
 
     }
 
