@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         {
             if (FastApproximately(hSpeed, 0, 0.0001f)) hSpeed = 0;
             if (hSpeed > 0) hSpeed -= 0.05f;
-            if (hSpeed < 0) hSpeed += 0.05f;
+            else if (hSpeed < 0) hSpeed += 0.05f;
         }
         
 
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         //Jumping
         isOnGround = Physics2D.OverlapCircle
             (groundCheckPoint.position,groundCheckRadius,groundLayer);
+
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             component.velocity = new Vector2(hSpeed, jumpSpeed);
