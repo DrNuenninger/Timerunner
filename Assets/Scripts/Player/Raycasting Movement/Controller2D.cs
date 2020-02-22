@@ -16,6 +16,8 @@ public class Controller2D : MonoBehaviour
     private float horizontalRaySpacing;
     private float verticalRaySpacing;
 
+    public CollisionInfo collissions;
+
 
     void Start()
     {
@@ -29,6 +31,42 @@ public class Controller2D : MonoBehaviour
         public Vector2 bottomLeft, bottomRight;
     }
 
+    public struct CollisionInfo
+    {
+        public bool above, below;
+        public bool left, right;
+
+        public void Reset()
+        {
+            above = below = false;
+            left = right = false;
+        }
+    }
+
+    void HorizontalCollisions(ref Vector3 velocity)
+    {
+        float directionX = Mathf.Sign(velocity.x);
+        float rayLength = Mathf.Abs(velocity.x) + skinwidth;
+
+        for (int i = 0; i < horizontalRayCount; i++)
+        {
+            Vector2 rayOrigin = (directionX == -1) ? rayCastOrigins.bottomLeft : rayCastOrigins.bottomRight;
+            rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collissionMask);
+
+            Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
+
+            if (hit)
+            {
+                velocity.x = (hit.distance - skinwidth) * directionX;
+                rayLength = hit.distance;
+
+                collissions.left = directionX == -1;
+                collissions.right = directionX == 1;
+            }
+        }
+    }
+
     void VerticalCollisions(ref Vector3 velocity)
     {
         float directionY = Mathf.Sign(velocity.y);
@@ -40,12 +78,15 @@ public class Controller2D : MonoBehaviour
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up*directionY, rayLength, collissionMask);
 
-            Debug.DrawRay(rayCastOrigins.bottomLeft + Vector2.right * verticalRaySpacing * i, Vector2.up * -2, Color.red);
-
+            Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+            Debug.Log(directionY);
             if (hit)
             {
                 velocity.y = (hit.distance - skinwidth) * directionY;
                 rayLength = hit.distance;
+
+                collissions.below = directionY == -1;
+                collissions.above = directionY == 1;
             }
         }
     }
@@ -80,7 +121,18 @@ public class Controller2D : MonoBehaviour
     public void Move(Vector3 velocity)
     {
         UpdateRayCastOrigins();
-        VerticalCollisions(ref velocity);
+        collissions.Reset();
+
+        if (velocity.x != 0)
+        {
+            HorizontalCollisions(ref velocity);
+        }
+
+        if (velocity.y != 0)
+        {
+            VerticalCollisions(ref velocity);
+        }
+
         transform.Translate(velocity);
     }
 }
