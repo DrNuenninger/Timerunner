@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Skybox
+    uniqueID: 318604971
+    locked: 0
+  - name: FurtherBackground
+    uniqueID: 3009059317
+    locked: 0
   - name: Background
     uniqueID: 3628327675
     locked: 0
@@ -46,4 +52,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2463702199
+    locked: 0
+  - name: FurtherForeground
+    uniqueID: 3627697827
     locked: 0
