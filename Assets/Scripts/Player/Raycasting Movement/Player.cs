@@ -7,15 +7,20 @@ using UnityEngine.UIElements;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
+    public float jumpHeight = 4;
+    public float timeToJumpApex = 0.4f;
+
     private float movespeed = 6f;
-    private float jumpvelocity = 8f;
     private Vector3 velocity;
-    public float gravity = -20f;
+    private float gravity;
+    private float jumpvelocity;
 
     public Controller2D controller;
     void Start()
     {
-        
+        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        jumpvelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        print("Gravity: " + gravity + " JumpVelocity: " + jumpvelocity);
     }
 
     // Update is called once per frame
