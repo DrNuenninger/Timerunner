@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private float gravity;
     private float jumpvelocity;
     private float velocityXSmoothing;
+    //TODO change acceleration so that it starts fresh when jumping over a wall you were walking against
     public float accelerationTimeAirborn = 0.2f;
     public float accelerationTimeGrounded = 0.1f;
 

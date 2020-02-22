@@ -37,11 +37,17 @@ public class Controller2D : MonoBehaviour
     {
         public bool above, below;
         public bool left, right;
+        public bool climbingSlope;
+        public float slopeAngle, slopeAngleOld;
 
         public void Reset()
         {
             above = below = false;
             left = right = false;
+            climbingSlope = false;
+
+            slopeAngleOld = slopeAngle;
+            slopeAngle = 0f;
         }
     }
 
@@ -64,14 +70,29 @@ public class Controller2D : MonoBehaviour
 
                 if (i == 0 && slopeAngle <= maxClimbAngle)
                 {
+                    float distanceToSlopeStart = 0f;
+                    if (slopeAngle != collissions.slopeAngleOld)
+                    {
+                        distanceToSlopeStart = hit.distance - skinwidth;
+                        velocity.x -= distanceToSlopeStart * directionX;
+                    }
                     ClimbSlope(ref velocity, slopeAngle);
-                } 
+                    velocity.x += distanceToSlopeStart * directionX;
+                }
 
-                velocity.x = (hit.distance - skinwidth) * directionX;
-                rayLength = hit.distance;
+                if (!collissions.climbingSlope || slopeAngle > maxClimbAngle)
+                {
+                    velocity.x = (hit.distance - skinwidth) * directionX;
+                    rayLength = hit.distance;
 
-                collissions.left = directionX == -1;
-                collissions.right = directionX == 1;
+                    if (collissions.climbingSlope)
+                    {
+                        velocity.y = Mathf.Tan(collissions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);
+                    }
+
+                    collissions.left = directionX == -1;
+                    collissions.right = directionX == 1;
+                }
             }
         }
     }
@@ -79,8 +100,18 @@ public class Controller2D : MonoBehaviour
     void ClimbSlope(ref Vector3 velocity, float slopeAngle)
     {
         float moveDistance = Mathf.Abs(velocity.x);
-        velocity.y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
-        velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
+        float climbVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+        if (velocity.y <= climbVelocityY)
+        {
+            velocity.y = climbVelocityY;
+            velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
+            collissions.below = true;
+            collissions.climbingSlope = true;
+            collissions.slopeAngle = slopeAngle;
+        }
+        
+
     }
 
     void VerticalCollisions(ref Vector3 velocity)
@@ -101,8 +132,31 @@ public class Controller2D : MonoBehaviour
                 velocity.y = (hit.distance - skinwidth) * directionY;
                 rayLength = hit.distance;
 
+                if (collissions.climbingSlope)
+                {
+                    velocity.x = velocity.y / Mathf.Tan(collissions.slopeAngle * Mathf.Deg2Rad) *
+                                 Mathf.Sign(velocity.x);
+                }
+
                 collissions.below = directionY == -1;
                 collissions.above = directionY == 1;
+            }
+        }
+
+        if (collissions.climbingSlope)
+        {
+            float directionX = Mathf.Sign(velocity.x);
+            rayLength = Mathf.Abs(velocity.x) + skinwidth;
+            Vector2 rayOrigin = ((directionX == -1) ? rayCastOrigins.bottomLeft : rayCastOrigins.bottomRight) + Vector2.up * velocity.y;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collissionMask);
+            if (hit)
+            {
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                if (slopeAngle != collissions.slopeAngle)
+                {
+                    velocity.x = (hit.distance - skinwidth) * directionX;
+                    collissions.slopeAngle = slopeAngle;
+                }
             }
         }
     }
