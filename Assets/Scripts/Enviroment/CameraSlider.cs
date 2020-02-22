@@ -7,7 +7,7 @@ public class CameraSlider : MonoBehaviour
     public Rigidbody2D player;
     public bool lockX = false;
     public bool lockY = false;
-    public int zoom = 0;
+    public int zoom = -10;
     void Start()
     {
         
