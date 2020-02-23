@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraSlider : MonoBehaviour
 {
-    public Rigidbody2D player;
+    public Collider2D player;
     public bool lockX = false;
     public bool lockY = false;
     public int zoom = -10;
@@ -21,13 +21,10 @@ public class CameraSlider : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!lockY)
-        {
-            transform.position = new Vector3(transform.position.x, player.position.y, zoom);
-        }
-        if (!lockX)
-        {
-            transform.position = new Vector3(player.position.x, transform.position.y, zoom);
-        }
+        float camX = (lockX == true) ? transform.position.x : player.bounds.center.x;
+        float camY = (lockY == true) ? transform.position.y : player.bounds.center.y;
+        
+            transform.position = new Vector3(camX, camY, zoom);
+       
     }
 }
