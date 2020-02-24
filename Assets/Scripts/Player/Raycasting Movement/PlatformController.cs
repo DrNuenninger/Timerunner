@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlatformController : RayCastController
 {
@@ -10,9 +11,13 @@ public class PlatformController : RayCastController
     public Vector3[] localWaypoints;
     private Vector3[] globalWaypoints;
 
+    //Platform vars
     public float speed;
     public bool cyclic;
+    public float waitTime;
+    private float nextMoveTime;
     private int fromWaypointIndex;
+    
     //[0,1]
     private float percentBetweenWaypoints;
 
@@ -38,6 +43,11 @@ public class PlatformController : RayCastController
 
     Vector3 CalculatePlatformMovement()
     {
+        if (Time.time < nextMoveTime)
+        {
+            return Vector3.zero;
+        }
+
         fromWaypointIndex %= globalWaypoints.Length;
         int toWaypointIndex = (fromWaypointIndex + 1)%globalWaypoints.Length;
         float distanceBetweenWaypoints =
@@ -59,6 +69,7 @@ public class PlatformController : RayCastController
                 }
             }
 
+            nextMoveTime = Time.time + waitTime;
         }
         
         return newPos - transform.position;
