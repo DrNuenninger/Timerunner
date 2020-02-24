@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public float jumpHeight = 4;
     public float timeToJumpApex = 0.4f;
-    [SerializeField]
     private bool crouchIsPressed;
     
 
@@ -22,15 +21,21 @@ public class Player : MonoBehaviour
     public float accelerationTimeAirborn = 0.2f;
     public float accelerationTimeGrounded = 0.1f;
 
+    //Nur als Vorbereitung für Crouchsliding und speed reduction
+    public float croucheSpeedMultiplier = 0.6f;
+    public float crouchSlideMultiplier = 1.4f;
+    public float crouchSlideTimeInSeconds = 1.2f;
+
     public Controller2D controller;
     void Start()
     {
+        //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpvelocity = Mathf.Abs(gravity) * timeToJumpApex;
         print("Gravity: " + gravity + " JumpVelocity: " + jumpvelocity);
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl)){ 
@@ -56,11 +61,13 @@ public class Player : MonoBehaviour
 
         float targetVelocityX = input.x * movespeed;
 
+        //Erlaubt ein momentumbasiertes Bewegunssystem
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
             (controller.collissions.below)?accelerationTimeGrounded:accelerationTimeAirborn);
 
         velocity.y += gravity * Time.deltaTime;
 
+        //Bewegt den Spieler
         controller.Move(velocity * Time.deltaTime, false, crouchIsPressed);
     }
 }

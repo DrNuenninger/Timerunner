@@ -20,7 +20,6 @@ public class RayCastController : MonoBehaviour
     [HideInInspector]
     public float verticalRaySpacing;
 
-    // Start is called before the first frame update
     public virtual void Start()
     {
         CalculateRaySpacing(false);
@@ -32,8 +31,7 @@ public class RayCastController : MonoBehaviour
         public Vector2 bottomLeft, bottomRight;
     }
 
-  
-
+    //Aktuallisiert die Position der Ecken des Spielers
     public void UpdateRayCastOrigins(bool isCrouched = false)
     {
         Bounds bounds = collider.bounds;
@@ -58,6 +56,8 @@ public class RayCastController : MonoBehaviour
 
     }
 
+
+    //Berechnet den Abstand der einzelnen Rays, nimmt in beachtung ob der Spieler am ducken ist
     public void CalculateRaySpacing(bool isCrouched)
     {
         Bounds bounds = collider.bounds;

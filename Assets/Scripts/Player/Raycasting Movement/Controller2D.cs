@@ -16,6 +16,7 @@ public class Controller2D : RayCastController
         base.Start();
     }
 
+    //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
     {
         public bool above, below;
@@ -38,6 +39,7 @@ public class Controller2D : RayCastController
         }
     }
 
+    //Überprüft ob "ducken" gedrückt wird
     void CalculatCrouching(bool isCrouched, ref Vector3 velocity)
     {
         if (isCrouched) 
@@ -48,6 +50,7 @@ public class Controller2D : RayCastController
         }
         if(!isCrouched && wasCrouchedLastFrame)
         {
+            //Wenn ducken nicht gedrückt wird, es jedoch im letzten Frame gedrückt wurde, überprüfe ob der Spieler austehen kann
             if (CheckIfPlayAbleToStand(ref velocity))
             {
                 wasCrouchedLastFrame = false;
@@ -57,9 +60,9 @@ public class Controller2D : RayCastController
         }
     }
 
+    //Überprüft ob, wenn der Spieler aufsteht, eine Wand/Decke in ihm drin sein würde
     bool CheckIfPlayAbleToStand(ref Vector3 velocity)
     {
-
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = rayCastOrigins.topLeft;
@@ -76,11 +79,13 @@ public class Controller2D : RayCastController
                 return true;
     }
 
+    //Behandelt horiziontale Bewegung
     void HorizontalCollisions(ref Vector3 velocity)
     {
         float directionX = Mathf.Sign(velocity.x);
         float rayLength = Mathf.Abs(velocity.x) + skinwidth;
 
+        //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
         {
             Vector2 rayOrigin = (directionX == -1) ? rayCastOrigins.bottomLeft : rayCastOrigins.bottomRight;
@@ -91,12 +96,14 @@ public class Controller2D : RayCastController
 
             if (hit)
             {
+                //Sorgt dafür, dass man durch eine Wand laufen kann, wenn man eigentlich stuck werden würde
+                //TODO: Verhalten hinzufügen dafür, wenn man in einer Wand zu tief drin ist
                 if (hit.distance == 0)
                 {
-                    continue;
-                    
+                    continue;                    
                 }
 
+                //Holt den winkel, abhängig von der normalen, auf die man zuläuft
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= maxClimbAngle)
@@ -133,6 +140,7 @@ public class Controller2D : RayCastController
         }
     }
 
+    //Anpassung der velocity um eine aufsteigende Rampe zu berücksichtigen
     void ClimbSlope(ref Vector3 velocity, float slopeAngle)
     {
         float moveDistance = Mathf.Abs(velocity.x);
@@ -148,12 +156,15 @@ public class Controller2D : RayCastController
         }
     }
 
+    //Anpassung der velocity um eine absteigende Rampe zu berücksichtigen
     void DecentSlope(ref Vector3 velocity)
     {
+        //Strahlt einen Ray nach unten, um den Winkel der absteigenden Rampe zu erhalten
         float directionX = Mathf.Sign(velocity.x);
         Vector2 rayOrigin = (directionX == -1) ? rayCastOrigins.bottomRight : rayCastOrigins.bottomLeft;
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -Vector2.up, Mathf.Infinity, collissionMask);
 
+        //Wenn absteigende Rampe vorhanden & Bewegung in diese Richtung erfolgt, bewege dich die Rampe herunter
         if (hit)
         {
             float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
@@ -178,11 +189,12 @@ public class Controller2D : RayCastController
 
     }
 
+    //Vertikalle Bewegungsberechnung
     void VerticalCollisions(ref Vector3 velocity)
     {
         float directionY = Mathf.Sign(velocity.y);
         float rayLength = Mathf.Abs(velocity.y) + skinwidth;
-
+        //Rays werden nach oben und unten abhängig von der bewegungsrichtung ausgestrahlt
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = (directionY == -1) ? rayCastOrigins.bottomLeft:rayCastOrigins.topLeft;
@@ -191,6 +203,7 @@ public class Controller2D : RayCastController
 
             Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
             
+            //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
                 velocity.y = (hit.distance - skinwidth) * directionY;
@@ -198,8 +211,7 @@ public class Controller2D : RayCastController
 
                 if (collissions.climbingSlope)
                 {
-                    velocity.x = velocity.y / Mathf.Tan(collissions.slopeAngle * Mathf.Deg2Rad) *
-                                 Mathf.Sign(velocity.x);
+                    velocity.x = velocity.y / Mathf.Tan(collissions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
                 }
 
                 collissions.below = directionY == -1;
@@ -225,26 +237,19 @@ public class Controller2D : RayCastController
         }
     }
 
-    
-
-    // Update is called once per frame
-    void Update()
-    {}
-
+ 
+    //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
     public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
     {
         UpdateRayCastOrigins();
-        CalculatCrouching(isCrouched, ref velocity);
-        
-        
-        
+        CalculatCrouching(isCrouched, ref velocity);        
         
         collissions.Reset();
         collissions.velocityOld = velocity;
 
         if (velocity.y < 0)
-        {
-            DecentSlope(ref velocity);
+        {           
+                DecentSlope(ref velocity); 
         }
 
         if (velocity.x != 0)
