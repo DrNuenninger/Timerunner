@@ -23,7 +23,7 @@ public class RayCastController : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        CalculateRaySpacing();
+        CalculateRaySpacing(false);
     }
 
     public struct RayCastOrigins
@@ -32,18 +32,33 @@ public class RayCastController : MonoBehaviour
         public Vector2 bottomLeft, bottomRight;
     }
 
-    public void UpdateRayCastOrigins()
+  
+
+    public void UpdateRayCastOrigins(bool isCrouched = false)
     {
         Bounds bounds = collider.bounds;
         bounds.Expand(skinwidth * -2);
+        
+        if (!isCrouched)
+        {            
+            rayCastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
+            rayCastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
+        }
+        else
+        {
+            print("Crouching Rays");
+            rayCastOrigins.topLeft = new Vector2(bounds.min.x, bounds.center.y);
+            rayCastOrigins.topRight = new Vector2(bounds.max.x, bounds.center.y);
+            CalculateRaySpacing(isCrouched);
+        }
+
 
         rayCastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
         rayCastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        rayCastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-        rayCastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
+
     }
 
-    public void CalculateRaySpacing()
+    public void CalculateRaySpacing(bool isCrouched)
     {
         Bounds bounds = collider.bounds;
         bounds.Expand(skinwidth * -2);
@@ -51,7 +66,16 @@ public class RayCastController : MonoBehaviour
         horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
         verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
 
-        horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
-        verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
+
+        if (!isCrouched)
+        {
+            horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
+            verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
+        }
+        else
+        {
+            horizontalRaySpacing = (bounds.size.y/2) / (horizontalRayCount - 1);
+            verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
+        }
     }
 }

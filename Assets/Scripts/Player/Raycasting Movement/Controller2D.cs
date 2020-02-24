@@ -7,6 +7,7 @@ public class Controller2D : RayCastController
 {
     public float maxClimbAngle = 60f;
     public float maxDecentAngle = 60f;
+    public bool wasCrouchedLastFrame = false;
 
     public CollisionInfo collissions;
 
@@ -23,6 +24,7 @@ public class Controller2D : RayCastController
         public bool descendingSlope;
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
+        
 
         public void Reset()
         {
@@ -34,6 +36,44 @@ public class Controller2D : RayCastController
             slopeAngleOld = slopeAngle;
             slopeAngle = 0f;
         }
+    }
+
+    void CalculatCrouching(bool isCrouched, ref Vector3 velocity)
+    {
+        if (isCrouched) 
+        { 
+            wasCrouchedLastFrame = true;
+            CalculateRaySpacing(isCrouched);
+            UpdateRayCastOrigins(isCrouched);
+        }
+        if(!isCrouched && wasCrouchedLastFrame)
+        {
+            if (CheckIfPlayAbleToStand(ref velocity))
+            {
+                wasCrouchedLastFrame = false;
+                CalculateRaySpacing(isCrouched);
+                UpdateRayCastOrigins(isCrouched);
+            }
+        }
+    }
+
+    bool CheckIfPlayAbleToStand(ref Vector3 velocity)
+    {
+
+        for (int i = 0; i < verticalRayCount; i++)
+        {
+            Vector2 rayOrigin = rayCastOrigins.topLeft;
+            rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * 1, collider.size.y / 2, collissionMask);
+
+            Debug.DrawRay(rayOrigin, Vector2.up * 1, Color.blue);
+
+            if (hit)
+            {
+                return false;
+            }
+        }
+                return true;
     }
 
     void HorizontalCollisions(ref Vector3 velocity)
@@ -191,9 +231,14 @@ public class Controller2D : RayCastController
     void Update()
     {}
 
-    public void Move(Vector3 velocity, bool standingOnPlatform = false)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
     {
         UpdateRayCastOrigins();
+        CalculatCrouching(isCrouched, ref velocity);
+        
+        
+        
+        
         collissions.Reset();
         collissions.velocityOld = velocity;
 
@@ -206,7 +251,7 @@ public class Controller2D : RayCastController
         {
             HorizontalCollisions(ref velocity);
         }
-        if (velocity.y != 0)
+        if (velocity.y != 0 || isCrouched)
         {
             VerticalCollisions(ref velocity);
         }

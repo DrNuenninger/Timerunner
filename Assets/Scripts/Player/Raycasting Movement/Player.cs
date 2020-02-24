@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public float jumpHeight = 4;
     public float timeToJumpApex = 0.4f;
+    [SerializeField]
+    private bool crouchIsPressed;
+    
 
     private float movespeed = 6f;
     private Vector3 velocity;
@@ -30,7 +33,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.LeftControl)){ 
+            crouchIsPressed = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            crouchIsPressed = false;            
+        }
+
+
         if (controller.collissions.above || controller.collissions.below)
         {
             velocity.y = 0;
@@ -45,10 +56,11 @@ public class Player : MonoBehaviour
 
         float targetVelocityX = input.x * movespeed;
 
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, 
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
             (controller.collissions.below)?accelerationTimeGrounded:accelerationTimeAirborn);
+
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime, false, crouchIsPressed);
     }
 }
