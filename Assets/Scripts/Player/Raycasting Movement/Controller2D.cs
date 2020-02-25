@@ -308,11 +308,20 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites();
+        ChangeSprites(ref velocity);
     }
 
-    void ChangeSprites()
+    void ChangeSprites(ref Vector3 velocity)
     {
+        if(velocity.x > 0)
+        {
+            spriteManager.FlipSpriteX(true);
+        }
+        else
+        {
+            spriteManager.FlipSpriteX(false);
+        }
+
         if (wasCrouchedLastFrame)
         {
             spriteManager.UpdateSprite(spriteManager.crouchingSprite);
