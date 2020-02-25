@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        print(controller.collissions.below);
         if (Input.GetKeyDown(KeyCode.Space) && controller.collissions.below && !controller.wasCrouchedLastFrame)
         {
             velocity.y = jumpvelocity;
