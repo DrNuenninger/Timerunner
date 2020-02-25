@@ -63,7 +63,16 @@ public class Player : MonoBehaviour
             velocity.y = jumpvelocity;
         }
 
-        float targetVelocityX = input.x * movespeed;
+        float targetVelocityX = 0f;
+        if (crouchIsPressed)
+        {
+            targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
+        }
+        else
+        {
+            targetVelocityX = input.x * movespeed;
+        }
+        
 
         //Erlaubt ein momentumbasiertes Bewegunssystem
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
