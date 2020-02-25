@@ -31,8 +31,7 @@ public class Player : MonoBehaviour
     
 
     void Start()
-    {
-        
+    {        
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpvelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -58,7 +57,7 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.collissions.below)
+        if (Input.GetKeyDown(KeyCode.Space) && controller.collissions.below && !controller.wasCrouchedLastFrame)
         {
             velocity.y = jumpvelocity;
         }
@@ -80,9 +79,6 @@ public class Player : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        //Adjust Player Sprite if needed
-        
-        
         //Bewegt den Spieler
         controller.Move(velocity * Time.deltaTime, false, crouchIsPressed);
     }

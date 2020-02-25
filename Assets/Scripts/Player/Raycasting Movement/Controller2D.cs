@@ -289,7 +289,7 @@ public class Controller2D : RayCastController
 
         if (velocity.y < 0)
         {           
-                DecentSlope(ref velocity); 
+            DecentSlope(ref velocity); 
         }
 
         if (velocity.x != 0)
