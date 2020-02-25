@@ -60,9 +60,15 @@ public class Player : MonoBehaviour
             targetVelocityX = input.x * movespeed;
         }
         //Erlaubt ein momentumbasiertes Bewegunssystem
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
-            (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
-
+        if ((controller.collissions.left && input.x < 0) || (controller.collissions.right && input.x > 0))
+        {
+            velocity.x = 0f;
+        }
+        else
+        {
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
+                (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
+        }
 
         print(velocity.x);
         bool wallSliding = false;
