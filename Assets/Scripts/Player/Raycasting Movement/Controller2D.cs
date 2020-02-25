@@ -57,6 +57,17 @@ public class Controller2D : RayCastController
                 CalculateRaySpacing(isCrouched);
                 UpdateRayCastOrigins(isCrouched);
             }
+            else
+            {
+                CalculateRaySpacing(wasCrouchedLastFrame);
+                UpdateRayCastOrigins(wasCrouchedLastFrame);
+            }
+            
+        }
+        if(!isCrouched && !wasCrouchedLastFrame)
+        {
+            CalculateRaySpacing(isCrouched);
+            UpdateRayCastOrigins(isCrouched);
         }
     }
 
@@ -240,8 +251,7 @@ public class Controller2D : RayCastController
  
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
     public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
-    {
-        UpdateRayCastOrigins();
+    {                
         CalculatCrouching(isCrouched, ref velocity);        
         
         collissions.Reset();
