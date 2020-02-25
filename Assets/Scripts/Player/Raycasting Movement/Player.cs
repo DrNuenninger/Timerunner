@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
     
-
-    private float movespeed = 6f;
+    
+    public float movespeed = 6f;
     private Vector3 velocity;
     private float gravity;
     private float jumpvelocity;
@@ -57,13 +57,14 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        print(controller.collissions.below);
         if (Input.GetKeyDown(KeyCode.Space) && controller.collissions.below && !controller.wasCrouchedLastFrame)
         {
             velocity.y = jumpvelocity;
         }
 
         float targetVelocityX = 0f;
-        if (crouchIsPressed)
+        if (controller.wasCrouchedLastFrame && controller.collissions.below)
         {
             targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
         }
