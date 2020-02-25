@@ -7,15 +7,23 @@ public class Controller2D : RayCastController
 {
     public float maxClimbAngle = 60f;
     public float maxDecentAngle = 60f;
+    private float crouchHeight;
     public bool wasCrouchedLastFrame = false;
+    private bool crouchColliderIsCrouched = false;
     private SpriteManager spriteManager;
 
     public CollisionInfo collissions;
-   
+
+
+    Vector3 oldColliderSize;
+    Vector3 oldColliderOffset;
 
     public override void Start()
-    {
+    {        
         base.Start();
+        crouchHeight = collider.size.y / 2;
+        oldColliderSize = collider.size;
+        oldColliderOffset = collider.offset;
         spriteManager = this.GetComponent<SpriteManager>();
     }
 
@@ -44,49 +52,62 @@ public class Controller2D : RayCastController
         }
     }
 
+    void UnCrouch()
+    {
+        collider.size = oldColliderSize;
+        collider.offset = oldColliderOffset;
+    }
+    
+    void Crouch()
+    {
+        Vector3 currentSize = oldColliderSize;
+        Vector3 currentOffset = oldColliderOffset;
+        currentSize.y -= crouchHeight;
+        currentOffset.y -= crouchHeight / 2;
+
+        collider.size = currentSize;
+        collider.offset = currentOffset;
+    }
+
     //Überprüft ob "ducken" gedrückt wird
     void CalculatCrouching(bool isCrouched, ref Vector3 velocity)
     {
-        if (isCrouched) 
-        { 
+        UpdateRayConfiguration();
+        if (isCrouched)
+        {
+            if (!crouchColliderIsCrouched)
+            {
+                Crouch();
+                crouchColliderIsCrouched = true;
+            }            
             wasCrouchedLastFrame = true;
-            UpdateRayConfiguration(isCrouched);
         }
         if(!isCrouched && wasCrouchedLastFrame)
         {
-            //Wenn ducken nicht gedrückt wird, es jedoch im letzten Frame gedrückt wurde, überprüfe ob der Spieler austehen kann
             if (CheckIfPlayAbleToStand(ref velocity))
             {
+                UnCrouch();
+                crouchColliderIsCrouched = false;
                 wasCrouchedLastFrame = false;
-                UpdateRayConfiguration(isCrouched);
-            }
-            else
-            {
-                UpdateRayConfiguration(wasCrouchedLastFrame);
-            }
-            
-        }
-        if(!isCrouched && !wasCrouchedLastFrame)
-        {
-            UpdateRayConfiguration(isCrouched);            
+            }            
         }
     }
 
-    void UpdateRayConfiguration(bool isCrouched)
+    void UpdateRayConfiguration()
     {
-        CalculateRaySpacing(isCrouched);
-        UpdateRayCastOrigins(isCrouched);
+        CalculateRaySpacing();
+        UpdateRayCastOrigins();
     }
 
 
     //Überprüft ob, wenn der Spieler aufsteht, eine Wand/Decke in ihm drin sein würde
     bool CheckIfPlayAbleToStand(ref Vector3 velocity)
-    {
+    {        
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = rayCastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * 1, collider.size.y / 2, collissionMask);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * 1, collider.size.y, collissionMask);
 
             Debug.DrawRay(rayOrigin, Vector2.up * 1, Color.blue);
 
@@ -95,7 +116,7 @@ public class Controller2D : RayCastController
                 return false;
             }
         }
-                return true;
+        return true;
     }
 
     //Behandelt horiziontale Bewegung
@@ -259,11 +280,12 @@ public class Controller2D : RayCastController
  
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
     public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
-    {                
-        CalculatCrouching(isCrouched, ref velocity);        
-        
+    {
+        UpdateRayCastOrigins();
         collissions.Reset();
+        CalculatCrouching(isCrouched, ref velocity);
         collissions.velocityOld = velocity;
+        
 
         if (velocity.y < 0)
         {           
@@ -274,7 +296,7 @@ public class Controller2D : RayCastController
         {
             HorizontalCollisions(ref velocity);
         }
-        if (velocity.y != 0 || isCrouched)
+        if (velocity.y != 0)
         {
             VerticalCollisions(ref velocity);
         }
