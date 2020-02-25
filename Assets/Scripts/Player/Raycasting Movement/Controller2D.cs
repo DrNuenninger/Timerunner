@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 
 public class Controller2D : RayCastController
@@ -24,6 +25,7 @@ public class Controller2D : RayCastController
         crouchHeight = collider.size.y / 2;
         oldColliderSize = collider.size;
         oldColliderOffset = collider.offset;
+        collissions.faceDirection = 1;
         spriteManager = this.GetComponent<SpriteManager>();
     }
 
@@ -38,6 +40,7 @@ public class Controller2D : RayCastController
         public bool descendingSlope;
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
+        public int faceDirection;
         
 
         public void Reset()
@@ -122,8 +125,13 @@ public class Controller2D : RayCastController
     //Behandelt horiziontale Bewegung
     void HorizontalCollisions(ref Vector3 velocity)
     {
-        float directionX = Mathf.Sign(velocity.x);
+        float directionX = collissions.faceDirection;
         float rayLength = Mathf.Abs(velocity.x) + skinwidth;
+
+        if (Mathf.Abs(velocity.x) < skinwidth)
+        {
+            rayLength = 2 * skinwidth;
+        }
 
         //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
@@ -294,8 +302,10 @@ public class Controller2D : RayCastController
 
         if (velocity.x != 0)
         {
-            HorizontalCollisions(ref velocity);
+            collissions.faceDirection = (int)Mathf.Sign(velocity.x);
         }
+        HorizontalCollisions(ref velocity);
+        
         if (velocity.y != 0)
         {
             VerticalCollisions(ref velocity);

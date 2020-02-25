@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Sprite))]
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float jumpHeight = 4;
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
@@ -26,6 +25,11 @@ public class Player : MonoBehaviour
     public float croucheSpeedMultiplier = 0.6f;
     public float crouchSlideMultiplier = 1.4f;
     public float crouchSlideTimeInSeconds = 1.2f;
+    //Wallslide variables
+    public float wallSlideSpeedMax = 3f;
+    public Vector2 wallJumpClimb;
+    public Vector2 wallJumpOff;
+    public Vector2 wallJumpLarge;
 
     public Controller2D controller;
     
@@ -41,6 +45,23 @@ public class Player : MonoBehaviour
  
     void Update()
     {
+        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        int wallDirectionX = (controller.collissions.left) ? -1 : 1;
+
+        print(velocity.x);
+        bool wallSliding = false;
+        //Überprüft ob die Bedingungen für einen Wallslide vorhanden sind
+
+        if ((controller.collissions.left || controller.collissions.right) && !controller.collissions.below &&
+            velocity.y < 0)
+        {
+            wallSliding = true;
+
+            if (velocity.y < -wallSlideSpeedMax)
+            {
+                velocity.y = -wallSlideSpeedMax;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.LeftControl)){ 
             crouchIsPressed = true;
         }
@@ -55,14 +76,35 @@ public class Player : MonoBehaviour
             velocity.y = 0;
         }
 
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        if (Input.GetKeyDown(KeyCode.Space) && controller.collissions.below && !controller.wasCrouchedLastFrame)
+        
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            velocity.y = jumpvelocity;
+            if (wallSliding)
+            {
+                if (wallDirectionX == input.x)
+                {
+                    velocity.x = -wallDirectionX * wallJumpClimb.x;
+                    velocity.y = wallJumpClimb.y;
+                }
+                else if (input.x == 0)
+                {
+                    velocity.x = -wallDirectionX * wallJumpOff.x;
+                    velocity.y =  wallJumpOff.y;
+                }
+                else
+                {
+                    velocity.x = -wallDirectionX * wallJumpLarge.x;
+                    velocity.y = wallJumpLarge.y;
+                }
+            }
+
+            if (controller.collissions.below && !controller.wasCrouchedLastFrame)
+            {
+                velocity.y = jumpvelocity;
+            }
         }
 
-        float targetVelocityX = 0f;
+        float targetVelocityX;
         if (controller.wasCrouchedLastFrame && controller.collissions.below)
         {
             targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
