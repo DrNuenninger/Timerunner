@@ -8,13 +8,18 @@ public class Controller2D : RayCastController
     public float maxClimbAngle = 60f;
     public float maxDecentAngle = 60f;
     public bool wasCrouchedLastFrame = false;
+    private SpriteManager spriteManager;
 
     public CollisionInfo collissions;
+   
 
     public override void Start()
     {
         base.Start();
+        spriteManager = this.GetComponent<SpriteManager>();
     }
+
+   
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
@@ -45,8 +50,7 @@ public class Controller2D : RayCastController
         if (isCrouched) 
         { 
             wasCrouchedLastFrame = true;
-            CalculateRaySpacing(isCrouched);
-            UpdateRayCastOrigins(isCrouched);
+            UpdateRayConfiguration(isCrouched);
         }
         if(!isCrouched && wasCrouchedLastFrame)
         {
@@ -54,22 +58,26 @@ public class Controller2D : RayCastController
             if (CheckIfPlayAbleToStand(ref velocity))
             {
                 wasCrouchedLastFrame = false;
-                CalculateRaySpacing(isCrouched);
-                UpdateRayCastOrigins(isCrouched);
+                UpdateRayConfiguration(isCrouched);
             }
             else
             {
-                CalculateRaySpacing(wasCrouchedLastFrame);
-                UpdateRayCastOrigins(wasCrouchedLastFrame);
+                UpdateRayConfiguration(wasCrouchedLastFrame);
             }
             
         }
         if(!isCrouched && !wasCrouchedLastFrame)
         {
-            CalculateRaySpacing(isCrouched);
-            UpdateRayCastOrigins(isCrouched);
+            UpdateRayConfiguration(isCrouched);            
         }
     }
+
+    void UpdateRayConfiguration(bool isCrouched)
+    {
+        CalculateRaySpacing(isCrouched);
+        UpdateRayCastOrigins(isCrouched);
+    }
+
 
     //Überprüft ob, wenn der Spieler aufsteht, eine Wand/Decke in ihm drin sein würde
     bool CheckIfPlayAbleToStand(ref Vector3 velocity)
@@ -276,6 +284,20 @@ public class Controller2D : RayCastController
         if (standingOnPlatform)
         {
             collissions.below = true;
+        }
+
+        ChangeSprites();
+    }
+
+    void ChangeSprites()
+    {
+        if (wasCrouchedLastFrame)
+        {
+            spriteManager.UpdateSprite(spriteManager.crouchingSprite);
+        }
+        else
+        {
+            spriteManager.UpdateSprite(spriteManager.standingSprite);
         }
     }
 }

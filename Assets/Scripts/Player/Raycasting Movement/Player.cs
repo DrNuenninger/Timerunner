@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Controller2D))]
+[RequireComponent(typeof(Sprite))]
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -27,8 +28,11 @@ public class Player : MonoBehaviour
     public float crouchSlideTimeInSeconds = 1.2f;
 
     public Controller2D controller;
+    
+
     void Start()
     {
+        
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpvelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -67,6 +71,9 @@ public class Player : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
+        //Adjust Player Sprite if needed
+        
+        
         //Bewegt den Spieler
         controller.Move(velocity * Time.deltaTime, false, crouchIsPressed);
     }
