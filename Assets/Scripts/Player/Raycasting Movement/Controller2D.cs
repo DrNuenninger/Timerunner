@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Timeline;
+﻿using UnityEngine;
 
 
 public class Controller2D : RayCastController
@@ -11,6 +8,8 @@ public class Controller2D : RayCastController
     private float crouchHeight;
     public bool wasCrouchedLastFrame = false;
     private bool crouchColliderIsCrouched = false;
+    private bool playerAbleToStandUp = false;
+
     private SpriteManager spriteManager;
 
     public CollisionInfo collissions;
@@ -87,7 +86,7 @@ public class Controller2D : RayCastController
         }
         if(!isCrouched && wasCrouchedLastFrame)
         {
-            if (CheckIfPlayAbleToStand(ref velocity))
+            if (playerAbleToStandUp)
             {
                 UnCrouch();
                 crouchColliderIsCrouched = false;
@@ -133,6 +132,7 @@ public class Controller2D : RayCastController
             rayLength = 2 * skinwidth;
         }
 
+        playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
         //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
         {
@@ -318,12 +318,12 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites(ref velocity);
+        ChangeSprites(collissions.faceDirection);
     }
 
-    void ChangeSprites(ref Vector3 velocity)
+    void ChangeSprites(int faceDirection)
     {
-        if(velocity.x > 0)
+        if(faceDirection == 1)
         {
             spriteManager.FlipSpriteX(true);
         }

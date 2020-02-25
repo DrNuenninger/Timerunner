@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     public Vector2 wallJumpClimb;
     public Vector2 wallJumpOff;
     public Vector2 wallJumpLarge;
+    public float wallStickTime = 0.25f;
+    public float timeToWallUnstick;
 
     public Controller2D controller;
     
@@ -48,6 +50,20 @@ public class Player : MonoBehaviour
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
 
+        float targetVelocityX;
+        if (controller.wasCrouchedLastFrame && controller.collissions.below)
+        {
+            targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
+        }
+        else
+        {
+            targetVelocityX = input.x * movespeed;
+        }
+        //Erlaubt ein momentumbasiertes Bewegunssystem
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
+            (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
+
+
         print(velocity.x);
         bool wallSliding = false;
         //Überprüft ob die Bedingungen für einen Wallslide vorhanden sind
@@ -60,6 +76,25 @@ public class Player : MonoBehaviour
             if (velocity.y < -wallSlideSpeedMax)
             {
                 velocity.y = -wallSlideSpeedMax;
+            }
+
+            if (timeToWallUnstick > 0)
+            {
+                velocityXSmoothing = 0;
+                velocity.x = 0;
+                if (input.x != wallDirectionX && input.x != 0)
+                {
+                    timeToWallUnstick -= Time.deltaTime;
+                }
+                else
+                {
+                    timeToWallUnstick = wallStickTime;
+                }
+
+            }
+            else
+            {
+                timeToWallUnstick = wallStickTime;
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftControl)){ 
@@ -104,21 +139,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        float targetVelocityX;
-        if (controller.wasCrouchedLastFrame && controller.collissions.below)
-        {
-            targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
-        }
-        else
-        {
-            targetVelocityX = input.x * movespeed;
-        }
         
-
-        //Erlaubt ein momentumbasiertes Bewegunssystem
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
-            (controller.collissions.below)?accelerationTimeGrounded:accelerationTimeAirborn);
-
         velocity.y += gravity * Time.deltaTime;
 
         //Bewegt den Spieler
