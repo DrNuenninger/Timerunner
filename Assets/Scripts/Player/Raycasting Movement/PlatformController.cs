@@ -118,9 +118,6 @@ public class PlatformController : RayCastController
             }
             if(passenger.moveBeforePlatform == beforeMovePlatform)
             {
-                //TODO: Here the crouch jumping against moving platform transport glitch accures
-                //Das Problem ist weniger ein Problem, eher ein oversight bei der Ray erzeugung
-                //Wenn ein Spieler duckend gegen eine Platform springt, bewegt sich der Spieler COllider durch den Boden wodurch die Platform denkt er stände auf der Platform
                 print("Moved by Platform");
                 passengerDictionary[passenger.transform].Move(passenger.velocity, passenger.standingOnPlatform, passengerDictionary[passenger.transform].wasCrouchedLastFrame);
             }
@@ -148,7 +145,7 @@ public class PlatformController : RayCastController
 
                 if (hit)
                 {
-                    if (!movedPassengers.Contains(hit.transform))
+                    if (!movedPassengers.Contains(hit.transform) && directionY != -1)
                     {
                         movedPassengers.Add(hit.transform);
                         float pushY = velocity.y - (hit.distance - skinwidth) * directionY;

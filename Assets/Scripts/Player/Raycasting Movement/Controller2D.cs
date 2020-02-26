@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class Controller2D : RayCastController
@@ -10,6 +8,8 @@ public class Controller2D : RayCastController
     private float crouchHeight;
     public bool wasCrouchedLastFrame = false;
     private bool crouchColliderIsCrouched = false;
+    private bool playerAbleToStandUp = false;
+
     private SpriteManager spriteManager;
 
     public CollisionInfo collissions;
@@ -24,10 +24,14 @@ public class Controller2D : RayCastController
         crouchHeight = collider.size.y / 2;
         oldColliderSize = collider.size;
         oldColliderOffset = collider.offset;
+        collissions.faceDirection = 1;
         spriteManager = this.GetComponent<SpriteManager>();
     }
 
-   
+   public SpriteManager getSpriteManager()
+   {
+        return spriteManager;
+   }
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
@@ -38,6 +42,7 @@ public class Controller2D : RayCastController
         public bool descendingSlope;
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
+        public int faceDirection;
         
 
         public void Reset()
@@ -84,13 +89,14 @@ public class Controller2D : RayCastController
         }
         if(!isCrouched && wasCrouchedLastFrame)
         {
-            if (CheckIfPlayAbleToStand(ref velocity))
+            if (playerAbleToStandUp)
             {
                 UnCrouch();
                 crouchColliderIsCrouched = false;
                 wasCrouchedLastFrame = false;
             }            
         }
+        
     }
 
     void UpdateRayConfiguration()
@@ -122,9 +128,18 @@ public class Controller2D : RayCastController
     //Behandelt horiziontale Bewegung
     void HorizontalCollisions(ref Vector3 velocity)
     {
-        float directionX = Mathf.Sign(velocity.x);
+        float directionX = collissions.faceDirection;
         float rayLength = Mathf.Abs(velocity.x) + skinwidth;
 
+        if (Mathf.Abs(velocity.x) < skinwidth)
+        {
+            rayLength = 2 * skinwidth;
+        }
+        if (wasCrouchedLastFrame)
+        {
+            playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
+        }
+        
         //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
         {
@@ -279,7 +294,7 @@ public class Controller2D : RayCastController
 
  
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
-    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
     {
         UpdateRayCastOrigins();
         collissions.Reset();
@@ -294,8 +309,10 @@ public class Controller2D : RayCastController
 
         if (velocity.x != 0)
         {
-            HorizontalCollisions(ref velocity);
+            collissions.faceDirection = (int)Mathf.Sign(velocity.x);
         }
+        HorizontalCollisions(ref velocity);
+        
         if (velocity.y != 0)
         {
             VerticalCollisions(ref velocity);
@@ -308,12 +325,12 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites(ref velocity);
+        ChangeSprites(collissions.faceDirection, wallSliding);
     }
 
-    void ChangeSprites(ref Vector3 velocity)
+    public void ChangeSprites(int faceDirection, bool isWallSliding = false)
     {
-        if(velocity.x > 0)
+        if(faceDirection == 1)
         {
             spriteManager.FlipSpriteX(true);
         }
@@ -325,6 +342,9 @@ public class Controller2D : RayCastController
         if (wasCrouchedLastFrame)
         {
             spriteManager.UpdateSprite(spriteManager.crouchingSprite);
+        }else if (isWallSliding)
+        {
+            spriteManager.UpdateSprite(spriteManager.wallSlidingSprite);
         }
         else
         {
