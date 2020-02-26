@@ -28,7 +28,10 @@ public class Controller2D : RayCastController
         spriteManager = this.GetComponent<SpriteManager>();
     }
 
-   
+   public SpriteManager getSpriteManager()
+   {
+        return spriteManager;
+   }
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
@@ -291,7 +294,7 @@ public class Controller2D : RayCastController
 
  
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
-    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
     {
         UpdateRayCastOrigins();
         collissions.Reset();
@@ -322,10 +325,10 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites(collissions.faceDirection);
+        ChangeSprites(collissions.faceDirection, wallSliding);
     }
 
-    void ChangeSprites(int faceDirection)
+    public void ChangeSprites(int faceDirection, bool isWallSliding = false)
     {
         if(faceDirection == 1)
         {
@@ -339,6 +342,9 @@ public class Controller2D : RayCastController
         if (wasCrouchedLastFrame)
         {
             spriteManager.UpdateSprite(spriteManager.crouchingSprite);
+        }else if (isWallSliding)
+        {
+            spriteManager.UpdateSprite(spriteManager.wallSlidingSprite);
         }
         else
         {

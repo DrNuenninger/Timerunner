@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
             velocity.y < 0)
         {
             wallSliding = true;
-
+            
             if (velocity.y < -wallSlideSpeedMax)
             {
                 velocity.y = -wallSlideSpeedMax;
@@ -153,6 +153,6 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         //Bewegt den Spieler
-        controller.Move(velocity * Time.deltaTime, false, crouchIsPressed);
+        controller.Move(velocity * Time.deltaTime, false, crouchIsPressed, wallSliding);
     }
 }

@@ -7,6 +7,7 @@ public class SpriteManager : MonoBehaviour
     private new SpriteRenderer renderer;
     public Sprite standingSprite;
     public Sprite crouchingSprite;
+    public Sprite wallSlidingSprite;
 
     void Start()
     {
