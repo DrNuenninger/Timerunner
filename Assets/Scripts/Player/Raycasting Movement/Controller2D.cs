@@ -93,6 +93,7 @@ public class Controller2D : RayCastController
                 wasCrouchedLastFrame = false;
             }            
         }
+        
     }
 
     void UpdateRayConfiguration()
@@ -131,8 +132,11 @@ public class Controller2D : RayCastController
         {
             rayLength = 2 * skinwidth;
         }
-
-        playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
+        if (wasCrouchedLastFrame)
+        {
+            playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
+        }
+        
         //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
         {

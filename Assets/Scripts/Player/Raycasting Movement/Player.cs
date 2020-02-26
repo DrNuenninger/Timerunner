@@ -110,6 +110,10 @@ public class Player : MonoBehaviour
         {
             crouchIsPressed = false;            
         }
+        if(Input.GetKey(KeyCode.LeftControl) && wallSliding)
+        {
+            crouchIsPressed = false;
+        }
 
 
         if (controller.collissions.above || controller.collissions.below)
