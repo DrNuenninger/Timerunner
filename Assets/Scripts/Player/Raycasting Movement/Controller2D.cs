@@ -158,6 +158,11 @@ public class Controller2D : RayCastController
 
             if (hit)
             {
+                if (hit.collider.tag == "PassablePlatform")
+                {
+                    continue;
+                }
+
                 //Sorgt dafür, dass man durch eine Wand laufen kann, wenn man eigentlich stuck werden würde
                 //TODO: Verhalten hinzufügen dafür, wenn man in einer Wand zu tief drin ist
                 if (hit.distance == 0)
