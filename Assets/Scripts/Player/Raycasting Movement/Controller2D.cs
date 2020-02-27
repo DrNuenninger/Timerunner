@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Numerics;
+using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 
 public class Controller2D : RayCastController
@@ -14,6 +17,7 @@ public class Controller2D : RayCastController
 
     public CollisionInfo collissions;
 
+    private Vector2 playerInput;
 
     Vector3 oldColliderSize;
     Vector3 oldColliderOffset;
@@ -28,10 +32,15 @@ public class Controller2D : RayCastController
         spriteManager = this.GetComponent<SpriteManager>();
     }
 
-   public SpriteManager getSpriteManager()
-   {
+    void ResetFallingThroughPlatform()
+    {
+        collissions.fallingThorughPlatform = false;
+    }
+
+    public SpriteManager getSpriteManager()
+    {
         return spriteManager;
-   }
+    }
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
@@ -43,6 +52,7 @@ public class Controller2D : RayCastController
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
         public int faceDirection;
+        public bool fallingThorughPlatform;
         
 
         public void Reset()
@@ -135,10 +145,7 @@ public class Controller2D : RayCastController
         {
             rayLength = 2 * skinwidth;
         }
-        if (wasCrouchedLastFrame)
-        {
-            playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
-        }
+        
         
         //Strahlt Rays von dem Character nach links oder rechts aus
         for (int i = 0; i < horizontalRayCount; i++)
@@ -261,6 +268,24 @@ public class Controller2D : RayCastController
             //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
+                if (hit.collider.tag == "PassablePlatform")
+                {
+                    if (directionY == 1 || hit.distance == 0)
+                    {
+                        continue;
+                    }
+                    if (collissions.fallingThorughPlatform)
+                    {
+                        continue;
+                    }
+                    if (playerInput.y == -1)
+                    {
+                        collissions.fallingThorughPlatform = true;
+                        Invoke("ResetFallingThroughPlatform", 0.5f);
+                        continue;
+                    }
+                }
+
                 velocity.y = (hit.distance - skinwidth) * directionY;
                 rayLength = hit.distance;
 
@@ -292,14 +317,29 @@ public class Controller2D : RayCastController
         }
     }
 
- 
+    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false,
+        bool wallSliding = false)
+    {
+        Move(velocity, Vector2.zero, standingOnPlatform, isCrouched, wallSliding);
+    }
+
+
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
-    public void Move(Vector3 velocity, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
+    public void Move(Vector3 velocity,Vector2 input, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
     {
         UpdateRayCastOrigins();
         collissions.Reset();
+        if (wasCrouchedLastFrame && !isCrouched)
+        {
+            playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
+        }
         CalculatCrouching(isCrouched, ref velocity);
         collissions.velocityOld = velocity;
+
+
+
+        playerInput = input;
+
         
 
         if (velocity.y < 0)
