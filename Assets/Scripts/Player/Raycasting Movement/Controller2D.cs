@@ -357,7 +357,7 @@ public class Controller2D : RayCastController
         {
             VerticalCollisions(ref velocity);
         }
-
+        //test
         transform.Translate(velocity);
 
         if (standingOnPlatform)
