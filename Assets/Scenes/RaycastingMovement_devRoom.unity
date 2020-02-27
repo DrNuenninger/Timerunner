@@ -1024,6 +1024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standingSprite: {fileID: 21300000, guid: c2b526f1ea2cd98489fecf4edbb83a76, type: 3}
   crouchingSprite: {fileID: 21300000, guid: 43ac4501c1f229b45aef310304a234e4, type: 3}
+  wallSlidingSprite: {fileID: 0}
 --- !u!1 &948148943
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,7 +2045,7 @@ PrefabInstance:
     - target: {fileID: 1280935872044666368, guid: 235df674559823c42bb241700d94f6ed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.22
       objectReference: {fileID: 0}
     - target: {fileID: 1280935872044666368, guid: 235df674559823c42bb241700d94f6ed,
         type: 3}
