@@ -116,10 +116,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if (controller.collissions.above || controller.collissions.below)
-        {
-            velocity.y = 0;
-        }
+       
 
         
         if (Input.GetKeyDown(KeyCode.Space))
@@ -153,6 +150,12 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         //Bewegt den Spieler
-        controller.Move(velocity * Time.deltaTime, false, crouchIsPressed, wallSliding);
+        controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding);
+
+        if (controller.collissions.above || controller.collissions.below)
+        {
+            velocity.y = 0;
+        }
+
     }
 }
