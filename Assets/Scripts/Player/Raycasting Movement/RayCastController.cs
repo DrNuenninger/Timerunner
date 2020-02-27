@@ -15,6 +15,7 @@ public class RayCastController : MonoBehaviour
     public int horizontalRayCount = 4;
     public int verticalRayCount = 4;
 
+    [HideInInspector]
     public BoxCollider2D collider;
     public RayCastOrigins rayCastOrigins;
 
@@ -22,6 +23,11 @@ public class RayCastController : MonoBehaviour
     public float horizontalRaySpacing;
     [HideInInspector]
     public float verticalRaySpacing;
+
+    public virtual void Awake()
+    {
+        collider = GetComponent<BoxCollider2D>();
+    }
 
     public virtual void Start()
     {
