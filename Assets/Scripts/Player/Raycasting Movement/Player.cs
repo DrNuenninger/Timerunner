@@ -7,7 +7,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Sprite))]
 public class Player : MonoBehaviour
 {
-    public float jumpHeight = 4;
+    public float maxJumpHeight = 4;
+    public float minJumpHeight = 1f;
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
     
@@ -15,7 +16,8 @@ public class Player : MonoBehaviour
     public float movespeed = 6f;
     private Vector3 velocity;
     private float gravity;
-    private float jumpvelocity;
+    private float maxJumpVelocity;
+    private float minJumpVelocity;
     private float velocityXSmoothing;
     //TODO change acceleration so that it starts fresh when jumping over a wall you were walking against
     public float accelerationTimeAirborn = 0.2f;
@@ -39,9 +41,10 @@ public class Player : MonoBehaviour
     void Start()
     {        
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
-        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        jumpvelocity = Mathf.Abs(gravity) * timeToJumpApex;
-        print("Gravity: " + gravity + " JumpVelocity: " + jumpvelocity);
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+        print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
     }
 
  
@@ -142,7 +145,15 @@ public class Player : MonoBehaviour
 
             if (controller.collissions.below && !controller.wasCrouchedLastFrame)
             {
-                velocity.y = jumpvelocity;
+                velocity.y = maxJumpVelocity;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            if (velocity.y > minJumpVelocity)
+            {
+                velocity.y = minJumpVelocity;
             }
         }
 
