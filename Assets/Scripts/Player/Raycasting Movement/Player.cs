@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,6 +15,11 @@ public class Player : MonoBehaviour
     
     
     public float movespeed = 6f;
+    public float sprintSpeedModifier = 2f;
+    public float accelerationTimeSprint = 0.4f;
+    private float currentSprintSpeed = 0f;
+    private float speedSmoothing;
+
     private Vector3 velocity;
     private float gravity;
     private float maxJumpVelocity;
@@ -52,7 +58,7 @@ public class Player : MonoBehaviour
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
-
+        float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
         float targetVelocityX;
         if (controller.wasCrouchedLastFrame && controller.collissions.below)
         {
@@ -60,12 +66,33 @@ public class Player : MonoBehaviour
         }
         else
         {
-            targetVelocityX = input.x * movespeed;
+            if (Input.GetKey(KeyCode.LeftShift) && controller.collissions.below && input.x > 0)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
+                    accelerationTimeSprint);
+            }else if (Input.GetKey(KeyCode.LeftShift) && controller.collissions.below && input.x < 0)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
+                    accelerationTimeSprint);
+            }
+            else if (Input.GetKey(KeyCode.LeftShift) && !controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed))
+            {
+
+            }
+            else
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
+                    accelerationTimeSprint/2);
+            }
+            targetVelocityX = input.x * movespeed + currentSprintSpeed;
         }
+        //Sprint Input
+
         //Erlaubt ein momentumbasiertes Bewegunssystem
         if ((controller.collissions.left && input.x < 0) || (controller.collissions.right && input.x > 0))
         {
             velocity.x = 0f;
+            currentSprintSpeed = 0f;
         }
         else
         {
@@ -73,7 +100,7 @@ public class Player : MonoBehaviour
                 (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
         }
 
-        print(velocity.x);
+        print("Current Vec: " + velocity.x + " Target Vec: "+ targetVelocityX + " SprintSpeed: " + currentSprintSpeed);
         bool wallSliding = false;
         //Überprüft ob die Bedingungen für einen Wallslide vorhanden sind
 
@@ -156,7 +183,6 @@ public class Player : MonoBehaviour
                 velocity.y = minJumpVelocity;
             }
         }
-
         
         velocity.y += gravity * Time.deltaTime;
 

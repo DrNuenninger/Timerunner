@@ -1249,12 +1249,12 @@ PrefabInstance:
     - target: {fileID: 2011196333302636848, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.36
+      value: -33.41
       objectReference: {fileID: 0}
     - target: {fileID: 2011196333302636848, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.623
+      value: -3.71
       objectReference: {fileID: 0}
     - target: {fileID: 2011196333302636848, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
@@ -1304,12 +1304,12 @@ PrefabInstance:
     - target: {fileID: 2011196333302636848, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50.546898
+      value: 157.20085
       objectReference: {fileID: 0}
     - target: {fileID: 2011196333302636848, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.485879
+      value: 2.9629972
       objectReference: {fileID: 0}
     - target: {fileID: 2011196333302636863, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
@@ -2532,6 +2532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: wallJumpLarge.y
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280935872044666372, guid: 235df674559823c42bb241700d94f6ed,
+        type: 3}
+      propertyPath: sprintSpeedModifier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1280935872044666373, guid: 235df674559823c42bb241700d94f6ed,
         type: 3}
