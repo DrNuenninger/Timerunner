@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
     private float currentSprintSpeed = 0f;
     private float speedSmoothing;
 
+
     private Vector3 velocity;
     private float gravity;
     private float maxJumpVelocity;
@@ -30,9 +33,16 @@ public class Player : MonoBehaviour
     public float accelerationTimeGrounded = 0.1f;
 
     //Nur als Vorbereitung für Crouchsliding und speed reduction
-    public float croucheSpeedMultiplier = 0.6f;
-    public float crouchSlideMultiplier = 1.4f;
-    public float crouchSlideTimeInSeconds = 1.2f;
+    public float crouchSpeedMultiplier = 0.6f;
+    public float maxCrouchSlideTime = 2f;
+    private float slideTimer = 0f;
+
+    public bool isCrouchSliding = false;
+    public bool crouchSlideSlowdown = false;
+    
+
+
+    private float crouchSlideSmoothing;
     //Wallslide variables
     public float wallSlideSpeedMax = 3f;
     public Vector2 wallJumpClimb;
@@ -60,34 +70,73 @@ public class Player : MonoBehaviour
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
         float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
         float targetVelocityX;
+        float localCrouchSpeedMultiplier;
+        
         if (controller.wasCrouchedLastFrame && controller.collissions.below)
         {
-            targetVelocityX = input.x * movespeed * croucheSpeedMultiplier;
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.LeftShift) && controller.collissions.below && input.x > 0)
+            if (isCrouchSliding)
             {
-                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
-                    accelerationTimeSprint);
-            }else if (Input.GetKey(KeyCode.LeftShift) && controller.collissions.below && input.x < 0)
-            {
-                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
-                    accelerationTimeSprint);
-            }
-            else if (Input.GetKey(KeyCode.LeftShift) && !controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed))
-            {
-
+                slideTimer += Time.deltaTime;
+                localCrouchSpeedMultiplier = 1f;
+                if (slideTimer >= maxCrouchSlideTime)
+                {
+                    isCrouchSliding = false;
+                    crouchSlideSlowdown = true;
+                }
             }
             else
             {
-                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
-                    accelerationTimeSprint/2);
+                localCrouchSpeedMultiplier = crouchSpeedMultiplier;
             }
-            targetVelocityX = input.x * movespeed + currentSprintSpeed;
-        }
-        //Sprint Input
 
+            if (crouchSlideSlowdown)
+            {
+                localCrouchSpeedMultiplier = crouchSpeedMultiplier;
+                currentSprintSpeed = 0;
+                crouchSlideSlowdown = false;
+            }
+
+            if (!isCrouchSliding && !crouchSlideSlowdown && Mathf.Abs(velocity.x) > Mathf.Abs(1*movespeed * crouchSpeedMultiplier))
+            {
+                isCrouchSliding = true;
+                slideTimer = 0f;
+            }
+        }
+        else
+        {
+            isCrouchSliding = false;
+            localCrouchSpeedMultiplier = 1f;
+        }
+        print("Crouch Multiploer = " + localCrouchSpeedMultiplier);
+        //Sprinting when on ground will increase SprintSpeed over time
+        //Sprinting while in air, wont increase or decrease SprintSpeed when input in that direction
+        //else SprintSpeed will decrease
+        if (Input.GetKey(KeyCode.LeftShift)) {
+
+            if (controller.wasCrouchedLastFrame && !isCrouchSliding)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
+                    accelerationTimeSprint / 2);
+            }else if (controller.collissions.below && input.x > 0)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
+                    accelerationTimeSprint);
+            }else if (controller.collissions.below && input.x < 0)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
+                    accelerationTimeSprint);
+            }else if ((!controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed)) || isCrouchSliding)
+            {
+                //Intended to be empty
+            }
+            
+        }
+        else
+        {
+            currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
+                accelerationTimeSprint / 2);
+        }
+        targetVelocityX = (input.x * movespeed + currentSprintSpeed) * localCrouchSpeedMultiplier;
         //Erlaubt ein momentumbasiertes Bewegunssystem
         if ((controller.collissions.left && input.x < 0) || (controller.collissions.right && input.x > 0))
         {
