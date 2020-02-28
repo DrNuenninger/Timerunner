@@ -274,11 +274,13 @@ public class Controller2D : RayCastController
             //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
-                if (hit.collider.gameObject.tag == "Killzone")
+                //TODO: Macht wenig Sinn das hier zu haben, das hat nichts mit movement zu tun, sollte seperate script sein, und Rays sind hier overkill, beide haben einen Collider, da kannste einfach nach overlap suchen
+                if (hit.collider.gameObject.tag == "Killzone") 
                 {
                     Scene currentScene = SceneManager.GetActiveScene();
                     SceneManager.LoadScene(currentScene.name);
                 }
+                //*****************************************
                 if (hit.collider.tag == "PassablePlatform")
                 {
                     if (directionY == 1 || hit.distance == 0)
