@@ -7,6 +7,8 @@ public class CameraFollow : MonoBehaviour
     public Controller2D target;
     public Vector2 focusAreaSize;
 
+    public float verticalOffset;
+
     private FocusArea focusArea;
 
     struct FocusArea
@@ -65,6 +67,10 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         focusArea.Update(target.collider.bounds);
+
+        Vector2 focusPosition = focusArea.center + Vector2.up * verticalOffset;
+
+        transform.position = (Vector3)focusPosition + Vector3.forward * -10;
     }
 
     void OnDrawGizmos()
