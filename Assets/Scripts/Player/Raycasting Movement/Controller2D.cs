@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -273,6 +274,11 @@ public class Controller2D : RayCastController
             //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
+                if (hit.collider.gameObject.tag == "Killzone")
+                {
+                    Scene currentScene = SceneManager.GetActiveScene();
+                    SceneManager.LoadScene(currentScene.name);
+                }
                 if (hit.collider.tag == "PassablePlatform")
                 {
                     if (directionY == 1 || hit.distance == 0)
