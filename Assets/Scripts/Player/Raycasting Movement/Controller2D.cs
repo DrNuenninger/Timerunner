@@ -18,7 +18,8 @@ public class Controller2D : RayCastController
 
     public CollisionInfo collissions;
 
-    private Vector2 playerInput;
+    [HideInInspector]
+    public Vector2 playerInput;
 
     Vector3 oldColliderSize;
     Vector3 oldColliderOffset;

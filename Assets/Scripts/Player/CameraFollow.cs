@@ -6,10 +6,21 @@ public class CameraFollow : MonoBehaviour
 {
     public Controller2D target;
     public Vector2 focusAreaSize;
-
-    public float verticalOffset;
-
     private FocusArea focusArea;
+
+    public float lookAheadDistanceX;
+    public float verticalOffset;
+    public float lookSmoothTimeX;
+    public float verticalSmoothTime;
+
+    private float currentLookAheadX;
+    private float targetLookAheadX;
+    private float lookAheadDirectionX;
+    private float smoothLookVelocityX;
+    private float smoothVelocityY;
+
+    private bool lookAheadStopped;
+    
 
     struct FocusArea
     {
@@ -64,11 +75,37 @@ public class CameraFollow : MonoBehaviour
         focusArea = new FocusArea(target.collider.bounds, focusAreaSize);
     }
 
+
+
     void LateUpdate()
     {
         focusArea.Update(target.collider.bounds);
 
         Vector2 focusPosition = focusArea.center + Vector2.up * verticalOffset;
+
+        if (focusArea.velocity.x != 0)
+        {
+            lookAheadDirectionX = Mathf.Sign(focusArea.velocity.x);
+            if (Mathf.Sign(target.playerInput.x) == Mathf.Sign(focusArea.velocity.x) && target.playerInput.x != 0)
+            {
+                lookAheadStopped = false;
+                targetLookAheadX = lookAheadDirectionX * lookAheadDistanceX;
+            }
+            else
+            {
+                if (!lookAheadStopped)
+                {
+                    targetLookAheadX = currentLookAheadX + (lookAheadDirectionX * lookAheadDistanceX - currentLookAheadX) / 4f;
+                    lookAheadStopped = true;
+                }
+            }
+        }
+
+        
+        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
+        focusPosition.y =
+            Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
+        focusPosition += Vector2.right * currentLookAheadX;
 
         transform.position = (Vector3)focusPosition + Vector3.forward * -10;
     }
