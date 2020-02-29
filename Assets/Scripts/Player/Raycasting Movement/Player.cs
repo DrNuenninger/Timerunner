@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     }
 
  
-    void Update()
+    void FixedUpdate()
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
