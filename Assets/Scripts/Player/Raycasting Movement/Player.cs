@@ -34,15 +34,20 @@ public class Player : MonoBehaviour
 
     //Nur als Vorbereitung für Crouchsliding und speed reduction
     public float crouchSpeedMultiplier = 0.6f;
-    public float maxCrouchSlideTime = 2f;
+    
     private float slideTimer = 0f;
+    private float slideSlowdownTimer = 0f;
 
     public bool isCrouchSliding = false;
     public bool crouchSlideSlowdown = false;
-    
-
-
+    public float crouchSlideSlowdownTime = 0.5f;
+    public float maxCrouchSlideTime = 1f;
+    private bool crouchLocking;
     private float crouchSlideSmoothing;
+    public bool initPossibleCrouchSlide;
+
+
+
     //Wallslide variables
     public float wallSlideSpeedMax = 3f;
     public Vector2 wallJumpClimb;
@@ -71,39 +76,48 @@ public class Player : MonoBehaviour
         float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
         float targetVelocityX;
         float localCrouchSpeedMultiplier;
-        
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            initPossibleCrouchSlide = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            initPossibleCrouchSlide = false;
+        }
+
         if (controller.wasCrouchedLastFrame && controller.collissions.below)
         {
-            if (isCrouchSliding)
+            //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
+            localCrouchSpeedMultiplier = 0.6f;
+            if (initPossibleCrouchSlide && Mathf.Abs(velocity.x) > Mathf.Abs(1*movespeed*crouchSpeedMultiplier) && !crouchSlideSlowdown)
             {
                 slideTimer += Time.deltaTime;
+                isCrouchSliding = true;
                 localCrouchSpeedMultiplier = 1f;
                 if (slideTimer >= maxCrouchSlideTime)
                 {
-                    isCrouchSliding = false;
                     crouchSlideSlowdown = true;
+                    initPossibleCrouchSlide = false;
+                    slideTimer = 0f;
                 }
-            }
-            else
-            {
-                localCrouchSpeedMultiplier = crouchSpeedMultiplier;
             }
 
             if (crouchSlideSlowdown)
             {
-                localCrouchSpeedMultiplier = crouchSpeedMultiplier;
-                currentSprintSpeed = 0;
+                currentSprintSpeed = 0f;
+                localCrouchSpeedMultiplier = 0.6f;
                 crouchSlideSlowdown = false;
+                
             }
 
-            if (!isCrouchSliding && !crouchSlideSlowdown && Mathf.Abs(velocity.x) > Mathf.Abs(1*movespeed * crouchSpeedMultiplier))
-            {
-                isCrouchSliding = true;
-                slideTimer = 0f;
-            }
+            //TO THIS
+            //ADD Input Call for crouch, even though not clean, better than what the fuck this is
         }
         else
         {
+            slideTimer = 0f;
             isCrouchSliding = false;
             localCrouchSpeedMultiplier = 1f;
         }
@@ -117,11 +131,11 @@ public class Player : MonoBehaviour
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                     accelerationTimeSprint / 2);
-            }else if (controller.collissions.below && input.x > 0)
+            }else if (controller.collissions.below && input.x > 0 && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
-            }else if (controller.collissions.below && input.x < 0)
+            }else if (controller.collissions.below && input.x < 0 && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
@@ -144,9 +158,9 @@ public class Player : MonoBehaviour
             currentSprintSpeed = 0f;
         }
         else
-        {
+        { 
             velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
-                (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
+                    (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
         }
 
         print("Current Vec: " + velocity.x + " Target Vec: "+ targetVelocityX + " SprintSpeed: " + currentSprintSpeed);
