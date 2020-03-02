@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
             initPossibleCrouchSlide = false;
         }
 
-        if (controller.wasCrouchedLastFrame && controller.collissions.below && !controller.collissions.left && !controller.collissions.right)
+        if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
@@ -96,12 +96,20 @@ public class Player : MonoBehaviour
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
                 localCrouchSpeedMultiplier = 1f;
+                if (!controller.collissions.below)
+                {
+                    slideTimer = 0f;
+                }
                 if (slideTimer >= maxCrouchSlideTime)
                 {
                     crouchSlideSlowdown = true;
                     initPossibleCrouchSlide = false;
                     slideTimer = 0f;
                 }
+            }
+            else
+            {
+                isCrouchSliding = false;
             }
 
             if (crouchSlideSlowdown)
