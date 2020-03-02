@@ -339,7 +339,7 @@ public class Controller2D : RayCastController
 
 
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
-    public void Move(Vector3 velocity,Vector2 input, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
+    public void Move(Vector3 velocity,Vector2 input, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false, bool isCrouchSliding = false)
     {
         UpdateRayCastOrigins();
         collissions.Reset();
@@ -379,10 +379,10 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites(collissions.faceDirection, wallSliding);
+        ChangeSprites(collissions.faceDirection, wallSliding, isCrouchSliding);
     }
 
-    public void ChangeSprites(int faceDirection, bool isWallSliding = false)
+    public void ChangeSprites(int faceDirection, bool isWallSliding = false, bool isCrouchSliding = false)
     {
         if(faceDirection == 1)
         {
@@ -393,7 +393,11 @@ public class Controller2D : RayCastController
             spriteManager.FlipSpriteX(false);
         }
 
-        if (wasCrouchedLastFrame)
+        if (isCrouchSliding)
+        {
+            spriteManager.UpdateSprite(spriteManager.crouchSlidingSprite);
+        }
+        else if (wasCrouchedLastFrame)
         {
             spriteManager.UpdateSprite(spriteManager.crouchingSprite);
         }else if (isWallSliding)

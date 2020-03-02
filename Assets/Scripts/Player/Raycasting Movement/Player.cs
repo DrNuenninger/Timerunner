@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
             initPossibleCrouchSlide = false;
         }
 
-        if (controller.wasCrouchedLastFrame && controller.collissions.below)
+        if (controller.wasCrouchedLastFrame && controller.collissions.below && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
@@ -109,11 +109,9 @@ public class Player : MonoBehaviour
                 currentSprintSpeed = 0f;
                 localCrouchSpeedMultiplier = 0.6f;
                 crouchSlideSlowdown = false;
-                
+                isCrouchSliding = false;
             }
 
-            //TO THIS
-            //ADD Input Call for crouch, even though not clean, better than what the fuck this is
         }
         else
         {
@@ -250,7 +248,7 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         //Bewegt den Spieler
-        controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding);
+        controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding, isCrouchSliding);
 
         if (controller.collissions.above || controller.collissions.below)
         {
