@@ -89,6 +89,7 @@ public class Controller2D : RayCastController
     //Überprüft ob "ducken" gedrückt wird
     void CalculatCrouching(bool isCrouched, ref Vector3 velocity)
     {
+        print("Was Crouched: " + wasCrouchedLastFrame + " Is Crouched: " + isCrouched);
         UpdateRayConfiguration();
         if (isCrouched)
         {
@@ -99,8 +100,9 @@ public class Controller2D : RayCastController
             }            
             wasCrouchedLastFrame = true;
         }
+       
         if(!isCrouched && wasCrouchedLastFrame)
-        {
+        {           
             if (playerAbleToStandUp)
             {
                 UnCrouch();

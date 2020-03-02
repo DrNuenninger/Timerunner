@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     }
 
  
-    void FixedUpdate()
+    void Update()
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         float targetVelocityX;
         float localCrouchSpeedMultiplier;
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && Mathf.Abs(velocity.x) > Mathf.Abs(1 * movespeed * crouchSpeedMultiplier))
         {
             initPossibleCrouchSlide = true;
         }
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
-            if (initPossibleCrouchSlide && Mathf.Abs(velocity.x) > Mathf.Abs(1*movespeed*crouchSpeedMultiplier) && !crouchSlideSlowdown)
+            if (initPossibleCrouchSlide && !crouchSlideSlowdown)
             {
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
@@ -119,7 +119,7 @@ public class Player : MonoBehaviour
             isCrouchSliding = false;
             localCrouchSpeedMultiplier = 1f;
         }
-        print("Crouch Multiploer = " + localCrouchSpeedMultiplier);
+        //print("Crouch Multiploer = " + localCrouchSpeedMultiplier);
         //Sprinting when on ground will increase SprintSpeed over time
         //Sprinting while in air, wont increase or decrease SprintSpeed when input in that direction
         //else SprintSpeed will decrease
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
                     (controller.collissions.below) ? accelerationTimeGrounded : accelerationTimeAirborn);
         }
 
-        print("Current Vec: " + velocity.x + " Target Vec: "+ targetVelocityX + " SprintSpeed: " + currentSprintSpeed);
+        //print("Current Vec: " + velocity.x + " Target Vec: "+ targetVelocityX + " SprintSpeed: " + currentSprintSpeed);
         bool wallSliding = false;
         //Überprüft ob die Bedingungen für einen Wallslide vorhanden sind
 
@@ -194,11 +194,13 @@ public class Player : MonoBehaviour
                 timeToWallUnstick = wallStickTime;
             }
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl)){ 
+        if (Input.GetKeyDown(KeyCode.LeftControl)){
+            print("Set Iscoruched");
             crouchIsPressed = true;
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
+            print("Unset isCrocued");
             crouchIsPressed = false;            
         }
         if(Input.GetKey(KeyCode.LeftControl) && wallSliding)
