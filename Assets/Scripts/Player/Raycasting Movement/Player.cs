@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     public bool crouchSlideSlowdown = false;
     public float crouchSlideSlowdownTime = 0.5f;
     public float maxCrouchSlideTime = 1f;
+    
     private bool crouchLocking;
     private float crouchSlideSmoothing;
     public bool initPossibleCrouchSlide;
@@ -99,6 +100,12 @@ public class Player : MonoBehaviour
                 {
                     slideTimer = 0f;
                 }
+                if (controller.collissions.descendingSlope)
+                {
+                    slideTimer = 0f;
+                    //localCrouchSpeedMultiplier = 2f;
+                }
+                print("CrouchSpeedMultiplier = " + localCrouchSpeedMultiplier);
                 if (slideTimer >= maxCrouchSlideTime)
                 {
                     crouchSlideSlowdown = true;
@@ -202,12 +209,12 @@ public class Player : MonoBehaviour
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftControl)){
-            print("Set Iscoruched");
+            //print("Set Iscoruched");
             crouchIsPressed = true;
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-            print("Unset isCrocued");
+            //print("Unset isCrocued");
             crouchIsPressed = false;            
         }
         if(Input.GetKey(KeyCode.LeftControl) && wallSliding)
