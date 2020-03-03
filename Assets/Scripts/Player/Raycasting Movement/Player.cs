@@ -102,8 +102,14 @@ public class Player : MonoBehaviour
                 if (controller.collissions.descendingSlope && controller.collissions.slopeAngle >= minCrouchSlideExtraSpeedAngle)
                 {
                     slideTimer = 0f;
-                    
-                    //localCrouchSpeedMultiplier = 2f;
+                    if(extraCrouchSlideSpeed < maxExtraCrouchSlideSpeed)
+                    {
+                        extraCrouchSlideSpeed += (Mathf.Sign(input.x) == 1)?maxExtraCrouchSlideSpeed / 60 : -maxExtraCrouchSlideSpeed / 60;
+                    }
+                }
+                else
+                {
+                    extraCrouchSlideSpeed = 0f;
                 }
                 //print("CrouchSpeedMultiplier = " + localCrouchSpeedMultiplier);
                 if (slideTimer >= maxCrouchSlideTime)
@@ -121,6 +127,7 @@ public class Player : MonoBehaviour
             if (crouchSlideSlowdown)
             {
                 currentSprintSpeed = 0f;
+                extraCrouchSlideSpeed = 0f;
                 localCrouchSpeedMultiplier = 0.6f;
                 crouchSlideSlowdown = false;
                 isCrouchSliding = false;
@@ -132,6 +139,7 @@ public class Player : MonoBehaviour
             slideTimer = 0f;
             isCrouchSliding = false;
             localCrouchSpeedMultiplier = 1f;
+            extraCrouchSlideSpeed = 0f;
         }
 
         if (Input.GetKey(KeyCode.LeftShift)) {
@@ -167,7 +175,7 @@ public class Player : MonoBehaviour
             currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                 accelerationTimeSprint / 2);
         }
-        targetVelocityX = (input.x * movespeed + currentSprintSpeed) * localCrouchSpeedMultiplier;
+        targetVelocityX = (input.x * movespeed + currentSprintSpeed) * localCrouchSpeedMultiplier + extraCrouchSlideSpeed;
         //Erlaubt ein momentumbasiertes Bewegunssystem
         if ((controller.collissions.left && input.x < 0) || (controller.collissions.right && input.x > 0))
         {
