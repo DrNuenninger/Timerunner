@@ -133,10 +133,7 @@ public class Player : MonoBehaviour
             isCrouchSliding = false;
             localCrouchSpeedMultiplier = 1f;
         }
-        //print("Crouch Multiploer = " + localCrouchSpeedMultiplier);
-        //Sprinting when on ground will increase SprintSpeed over time
-        //Sprinting while in air, wont increase or decrease SprintSpeed when input in that direction
-        //else SprintSpeed will decrease
+
         if (Input.GetKey(KeyCode.LeftShift)) {
 
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
