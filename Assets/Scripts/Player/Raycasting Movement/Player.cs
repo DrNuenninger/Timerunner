@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-        print(controller.collissions.descendingSlope +" : " + controller.collissions.slopeAngle);
+        print(extraCrouchSlideSpeed);
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
                     slideTimer = 0f;
                     if(extraCrouchSlideSpeed < maxExtraCrouchSlideSpeed)
                     {
-                        extraCrouchSlideSpeed += (Mathf.Sign(input.x) == 1)?maxExtraCrouchSlideSpeed / 60 : -maxExtraCrouchSlideSpeed / 60;
+                        extraCrouchSlideSpeed = (Mathf.Sign(input.x) == 1)? maxExtraCrouchSlideSpeed : -maxExtraCrouchSlideSpeed;
                     }
                 }
                 else
@@ -260,8 +260,12 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (controller.collissions.below && !controller.wasCrouchedLastFrame)
+            if (controller.collissions.below)
             {
+                if (controller.wasCrouchedLastFrame)
+                {
+                    crouchIsPressed = false;
+                }
                 velocity.y = maxJumpVelocity;
             }
         }
