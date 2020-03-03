@@ -35,15 +35,14 @@ public class Player : MonoBehaviour
     public float crouchSpeedMultiplier = 0.6f;
     
     private float slideTimer = 0f;
-    private float slideSlowdownTimer = 0f;
-
     public bool isCrouchSliding = false;
     public bool crouchSlideSlowdown = false;
+    public float maxExtraCrouchSlideSpeed = 12f;
+    private float extraCrouchSlideSpeed;
+    public float minCrouchSlideExtraSpeedAngle = 20f;
     public float crouchSlideSlowdownTime = 0.5f;
     public float maxCrouchSlideTime = 1f;
-    
-    private bool crouchLocking;
-    private float crouchSlideSmoothing;
+   
     public bool initPossibleCrouchSlide;
 
 
@@ -86,7 +85,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-
+        print(controller.collissions.descendingSlope +" : " + controller.collissions.slopeAngle);
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
@@ -100,12 +99,13 @@ public class Player : MonoBehaviour
                 {
                     slideTimer = 0f;
                 }
-                if (controller.collissions.descendingSlope)
+                if (controller.collissions.descendingSlope && controller.collissions.slopeAngle >= minCrouchSlideExtraSpeedAngle)
                 {
                     slideTimer = 0f;
+                    
                     //localCrouchSpeedMultiplier = 2f;
                 }
-                print("CrouchSpeedMultiplier = " + localCrouchSpeedMultiplier);
+                //print("CrouchSpeedMultiplier = " + localCrouchSpeedMultiplier);
                 if (slideTimer >= maxCrouchSlideTime)
                 {
                     crouchSlideSlowdown = true;
@@ -135,20 +135,28 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.LeftShift)) {
-
+            //Wenn der Spieler rennt, sich aber duckt, setze den Sprintspeed wieder richtung 0
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                     accelerationTimeSprint / 2);
-            }else if (controller.collissions.below && input.x > 0 && !isCrouchSliding)
+            }
+            else if (controller.collissions.below && input.x > 0 && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
-            }else if (controller.collissions.below && input.x < 0 && !isCrouchSliding)
+            }
+            else if (controller.collissions.below && input.x < 0 && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
-            }else if ((!controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed)) || isCrouchSliding)
+            }
+            else if (input.x == 0)
+            {
+                currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
+                    accelerationTimeSprint / 2);
+            }
+            else if ((!controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed)) || isCrouchSliding)
             {
                 //Intended to be empty
             }
