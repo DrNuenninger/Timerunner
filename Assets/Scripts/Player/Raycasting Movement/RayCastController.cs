@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+//using System.Numerics;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class RayCastController : MonoBehaviour
@@ -12,6 +15,7 @@ public class RayCastController : MonoBehaviour
     public int horizontalRayCount = 4;
     public int verticalRayCount = 4;
 
+    [HideInInspector]
     public BoxCollider2D collider;
     public RayCastOrigins rayCastOrigins;
 
@@ -19,6 +23,11 @@ public class RayCastController : MonoBehaviour
     public float horizontalRaySpacing;
     [HideInInspector]
     public float verticalRaySpacing;
+
+    public virtual void Awake()
+    {
+        collider = GetComponent<BoxCollider2D>();
+    }
 
     public virtual void Start()
     {
@@ -44,6 +53,8 @@ public class RayCastController : MonoBehaviour
         rayCastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
 
     }
+
+    
 
 
     //Berechnet den Abstand der einzelnen Rays, nimmt in beachtung ob der Spieler am ducken ist

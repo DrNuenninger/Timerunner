@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -17,7 +18,8 @@ public class Controller2D : RayCastController
 
     public CollisionInfo collissions;
 
-    private Vector2 playerInput;
+    [HideInInspector]
+    public Vector2 playerInput;
 
     Vector3 oldColliderSize;
     Vector3 oldColliderOffset;
@@ -87,6 +89,7 @@ public class Controller2D : RayCastController
     //Überprüft ob "ducken" gedrückt wird
     void CalculatCrouching(bool isCrouched, ref Vector3 velocity)
     {
+        //print("Was Crouched: " + wasCrouchedLastFrame + " Is Crouched: " + isCrouched);
         UpdateRayConfiguration();
         if (isCrouched)
         {
@@ -97,8 +100,9 @@ public class Controller2D : RayCastController
             }            
             wasCrouchedLastFrame = true;
         }
+       
         if(!isCrouched && wasCrouchedLastFrame)
-        {
+        {           
             if (playerAbleToStandUp)
             {
                 UnCrouch();
@@ -158,6 +162,11 @@ public class Controller2D : RayCastController
 
             if (hit)
             {
+                if (hit.collider.tag == "PassablePlatform")
+                {
+                    continue;
+                }
+
                 //Sorgt dafür, dass man durch eine Wand laufen kann, wenn man eigentlich stuck werden würde
                 //TODO: Verhalten hinzufügen dafür, wenn man in einer Wand zu tief drin ist
                 if (hit.distance == 0)
@@ -268,6 +277,13 @@ public class Controller2D : RayCastController
             //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
+                //TODO: Macht wenig Sinn das hier zu haben, das hat nichts mit movement zu tun, sollte seperate script sein, und Rays sind hier overkill, beide haben einen Collider, da kannste einfach nach overlap suchen
+                if (hit.collider.gameObject.tag == "Killzone") 
+                {
+                    Scene currentScene = SceneManager.GetActiveScene();
+                    SceneManager.LoadScene(currentScene.name);
+                }
+                //*****************************************
                 if (hit.collider.tag == "PassablePlatform")
                 {
                     if (directionY == 1 || hit.distance == 0)
@@ -325,7 +341,7 @@ public class Controller2D : RayCastController
 
 
     //Keine wirkliche Berechnungen, called die Kalkulierenden Funktionen abhängig von der Bewegungsrichung und Transformiert diese mit dem Spieler
-    public void Move(Vector3 velocity,Vector2 input, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false)
+    public void Move(Vector3 velocity,Vector2 input, bool standingOnPlatform = false, bool isCrouched = false, bool wallSliding = false, bool isCrouchSliding = false)
     {
         UpdateRayCastOrigins();
         collissions.Reset();
@@ -357,7 +373,7 @@ public class Controller2D : RayCastController
         {
             VerticalCollisions(ref velocity);
         }
-
+        //test
         transform.Translate(velocity);
 
         if (standingOnPlatform)
@@ -365,10 +381,10 @@ public class Controller2D : RayCastController
             collissions.below = true;
         }
 
-        ChangeSprites(collissions.faceDirection, wallSliding);
+        ChangeSprites(collissions.faceDirection, wallSliding, isCrouchSliding);
     }
 
-    public void ChangeSprites(int faceDirection, bool isWallSliding = false)
+    public void ChangeSprites(int faceDirection, bool isWallSliding = false, bool isCrouchSliding = false)
     {
         if(faceDirection == 1)
         {
@@ -379,7 +395,11 @@ public class Controller2D : RayCastController
             spriteManager.FlipSpriteX(false);
         }
 
-        if (wasCrouchedLastFrame)
+        if (isCrouchSliding)
+        {
+            spriteManager.UpdateSprite(spriteManager.crouchSlidingSprite);
+        }
+        else if (wasCrouchedLastFrame)
         {
             spriteManager.UpdateSprite(spriteManager.crouchingSprite);
         }else if (isWallSliding)
