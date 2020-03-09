@@ -18,11 +18,16 @@ public class RayCastController : MonoBehaviour
     [HideInInspector]
     public BoxCollider2D collider;
     public RayCastOrigins rayCastOrigins;
+    public SquashingRayCastOrigins squashingRayCastOrigins;
 
     [HideInInspector]
     public float horizontalRaySpacing;
     [HideInInspector]
     public float verticalRaySpacing;
+    [HideInInspector]
+    public float squashingHorizontalRaySpacing;
+    [HideInInspector]
+    public float squashingVerticalRaySpacing;
 
     public virtual void Awake()
     {
@@ -40,6 +45,12 @@ public class RayCastController : MonoBehaviour
         public Vector2 bottomLeft, bottomRight;
     }
 
+    public struct SquashingRayCastOrigins
+    {
+        public Vector2 topLeft, topRight;
+        public Vector2 bottomLeft, bottomRight;
+    }
+
     //Aktuallisiert die Position der Ecken des Spielers
     public void UpdateRayCastOrigins()
     {
@@ -51,6 +62,11 @@ public class RayCastController : MonoBehaviour
         rayCastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
         rayCastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
         rayCastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
+
+        squashingRayCastOrigins.topLeft = new Vector2(bounds.min.x + bounds.size.x/3, bounds.max.y - bounds.size.y/4);
+        squashingRayCastOrigins.topRight = new Vector2(bounds.max.x - bounds.size.x / 3, bounds.max.y - bounds.size.y / 4);
+        squashingRayCastOrigins.bottomLeft = new Vector2(bounds.min.x + bounds.size.x / 3, bounds.min.y + bounds.size.y / 4);
+        squashingRayCastOrigins.bottomRight = new Vector2(bounds.max.x - bounds.size.x / 3, bounds.min.y + bounds.size.y / 4);
 
     }
 
@@ -68,6 +84,9 @@ public class RayCastController : MonoBehaviour
         
         horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
         verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
-     
+
+        squashingHorizontalRaySpacing = (bounds.size.y / 2) / (horizontalRayCount - 1);
+        squashingVerticalRaySpacing = (bounds.size.x / 3) / (verticalRayCount - 1);
+
     }
 }

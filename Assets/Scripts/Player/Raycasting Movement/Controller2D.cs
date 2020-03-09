@@ -17,7 +17,7 @@ public class Controller2D : RayCastController
     private SpriteManager spriteManager;
 
     public CollisionInfo collissions;
-
+   
     [HideInInspector]
     public Vector2 playerInput;
 
@@ -39,10 +39,13 @@ public class Controller2D : RayCastController
         collissions.fallingThorughPlatform = false;
     }
 
+
     public SpriteManager getSpriteManager()
     {
         return spriteManager;
     }
+
+    
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
     public struct CollisionInfo
@@ -162,6 +165,32 @@ public class Controller2D : RayCastController
 
             if (hit)
             {
+                if (hit.distance == 0 && hit.collider.tag != "PassablePlatform")
+                {
+                    for (int e = 0; e < horizontalRayCount; e++)
+                    {
+                        print("FaceDirection = " + collissions.faceDirection);
+                        Vector2 rayOrigin2 = (directionX == -1) ? rayCastOrigins.bottomRight : rayCastOrigins.bottomLeft ;
+                        rayOrigin2 += Vector2.up * (horizontalRaySpacing * i);
+                        RaycastHit2D hit2 = Physics2D.Raycast(rayOrigin2, Vector2.right * -directionX, rayLength, collissionMask);
+
+                        Debug.DrawRay(rayOrigin2, Vector2.right * -directionX, Color.magenta);
+
+                        if (hit2)
+                        { 
+                            if(hit2.distance == 0)
+                            {
+                                //TODO: Add Player Death Logic Function
+                                print("Kill Player");
+                                break;                                
+                            }
+                        }
+                    }
+
+                    velocity.x = -directionX * skinwidth * 9;
+                    continue;
+                }
+
                 if (hit.collider.tag == "PassablePlatform")
                 {
                     continue;
@@ -277,6 +306,11 @@ public class Controller2D : RayCastController
             //Wenn ein Strahl ein Ground Objekt trifft bewege den Spieler bis zu dem objekt
             if (hit)
             {
+                if(hit.distance == 0 && hit.collider.tag != "PassablePlatform")
+                {
+                    velocity.y = -directionY * skinwidth;
+                    continue;
+                }
                 //TODO: Macht wenig Sinn das hier zu haben, das hat nichts mit movement zu tun, sollte seperate script sein, und Rays sind hier overkill, beide haben einen Collider, da kannste einfach nach overlap suchen
                 if (hit.collider.gameObject.tag == "Killzone") 
                 {
@@ -345,6 +379,7 @@ public class Controller2D : RayCastController
     {
         UpdateRayCastOrigins();
         collissions.Reset();
+        //CheckIfPlayerSquashed(ref velocity);
         if (wasCrouchedLastFrame && !isCrouched)
         {
             playerAbleToStandUp = CheckIfPlayAbleToStand(ref velocity);
@@ -373,7 +408,6 @@ public class Controller2D : RayCastController
         {
             VerticalCollisions(ref velocity);
         }
-        //test
         transform.Translate(velocity);
 
         if (standingOnPlatform)
