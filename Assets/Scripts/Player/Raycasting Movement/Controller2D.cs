@@ -187,7 +187,7 @@ public class Controller2D : RayCastController
                         }
                     }
 
-                    velocity.x = -directionX * skinwidth;
+                    velocity.x = -directionX * skinwidth * 9;
                     continue;
                 }
 
