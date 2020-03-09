@@ -25,4 +25,12 @@ public class Load_Manager : MonoBehaviour //Loads and manages available Save-Gam
     {
         SceneManager.LoadScene("Main_Menu", LoadSceneMode.Single);
     }
+    public void exit_Game()
+    {
+        Application.Quit();
+    }
+    public void load_LevelSelect()
+    {
+        SceneManager.LoadScene("Level_Select", LoadSceneMode.Single);
+    }
 }
