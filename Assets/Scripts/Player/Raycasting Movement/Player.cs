@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Load_Manager;
 
 [RequireComponent(typeof(Controller2D))]
 [RequireComponent(typeof(Sprite))]
@@ -75,6 +76,11 @@ public class Player : MonoBehaviour
         float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
         float targetVelocityX;
         float localCrouchSpeedMultiplier;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Load_Manager.load_Manager.escape_Action();
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && Mathf.Abs(velocity.x) > Mathf.Abs(1 * movespeed * crouchSpeedMultiplier))
         {
