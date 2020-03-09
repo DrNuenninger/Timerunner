@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
             localCrouchSpeedMultiplier = 1f;
             extraCrouchSlideSpeed = 0f;
         }
-
+        //++++
         if (Input.GetKey(KeyCode.LeftShift)) {
             //Wenn der Spieler rennt, sich aber duckt, setze den Sprintspeed wieder richtung 0
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
