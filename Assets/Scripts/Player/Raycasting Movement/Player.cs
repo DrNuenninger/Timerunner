@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
 
-            animator.SetBool("isSliding", isCrouchSliding);
+            
             if (initPossibleCrouchSlide && !crouchSlideSlowdown)
             {
                 slideTimer += Time.deltaTime;
@@ -232,7 +232,7 @@ public class Player : MonoBehaviour
                 timeToWallUnstick = wallStickTime;
             }
         }
-        animator.SetBool("isWallsliding", wallSliding);
+        
         if (Input.GetKeyDown(KeyCode.LeftControl)){
             //print("Set Iscoruched");
             crouchIsPressed = true;
@@ -296,7 +296,11 @@ public class Player : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding, isCrouchSliding);
         animator.SetFloat("moveSpeed", Mathf.Abs((velocity.x / (movespeed*sprintSpeedModifier))*2));
         animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
-
+        animator.SetBool("isWallsliding", wallSliding);
+        animator.SetBool("isSliding", isCrouchSliding);
+        bool flipX = (controller.collissions.faceDirection == -1);
+        animator.SetBool("flipX", flipX);
+        
         if (controller.collissions.above || controller.collissions.below)
         {
             velocity.y = 0;

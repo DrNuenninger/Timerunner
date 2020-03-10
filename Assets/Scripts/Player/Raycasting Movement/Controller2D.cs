@@ -428,6 +428,7 @@ public class Controller2D : RayCastController
         if(faceDirection == 1)
         {
             spriteManager.FlipSpriteX(true);
+            
         }
         else
         {
