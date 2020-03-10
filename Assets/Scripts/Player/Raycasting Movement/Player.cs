@@ -10,6 +10,8 @@ using static Load_Manager;
 [RequireComponent(typeof(Sprite))]
 public class Player : MonoBehaviour
 {
+    public Animator animator;
+
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = 0.4f;
@@ -96,10 +98,13 @@ public class Player : MonoBehaviour
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
+
+            animator.SetBool("isSliding", isCrouchSliding);
             if (initPossibleCrouchSlide && !crouchSlideSlowdown)
             {
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
+                
                 localCrouchSpeedMultiplier = 1f;
                 if (!controller.collissions.below)
                 {
@@ -227,6 +232,7 @@ public class Player : MonoBehaviour
                 timeToWallUnstick = wallStickTime;
             }
         }
+        animator.SetBool("isWallsliding", wallSliding);
         if (Input.GetKeyDown(KeyCode.LeftControl)){
             //print("Set Iscoruched");
             crouchIsPressed = true;
@@ -288,6 +294,8 @@ public class Player : MonoBehaviour
 
         //Bewegt den Spieler
         controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding, isCrouchSliding);
+        animator.SetFloat("moveSpeed", Mathf.Abs((velocity.x / (movespeed*sprintSpeedModifier))*2));
+        animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
 
         if (controller.collissions.above || controller.collissions.below)
         {

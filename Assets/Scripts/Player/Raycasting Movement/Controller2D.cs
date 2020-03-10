@@ -13,6 +13,7 @@ public class Controller2D : RayCastController
     public bool wasCrouchedLastFrame = false;
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
+    
 
     private SpriteManager spriteManager;
 
@@ -45,6 +46,10 @@ public class Controller2D : RayCastController
         return spriteManager;
     }
 
+    public void AdjustAnimations()
+    {
+
+    }
     
 
     //Informationen zu der Kollision des Spielers mit der Umgebung (Datenstrucktur)
