@@ -13,6 +13,7 @@ public class Controller2D : RayCastController
     public bool wasCrouchedLastFrame = false;
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
+    public bool isDead = false;
     
 
     private SpriteManager spriteManager;
@@ -294,6 +295,9 @@ public class Controller2D : RayCastController
 
     }
 
+   
+
+    
     //Vertikalle Bewegungsberechnung
     void VerticalCollisions(ref Vector3 velocity)
     {
@@ -317,10 +321,11 @@ public class Controller2D : RayCastController
                     continue;
                 }
                 //TODO: Macht wenig Sinn das hier zu haben, das hat nichts mit movement zu tun, sollte seperate script sein, und Rays sind hier overkill, beide haben einen Collider, da kannste einfach nach overlap suchen
-                if (hit.collider.gameObject.tag == "Killzone") 
+                if (hit.collider.gameObject.tag == "Killzone")
                 {
-                    Scene currentScene = SceneManager.GetActiveScene();
-                    SceneManager.LoadScene(currentScene.name);
+                    isDead = true;
+                    //Scene currentScene = SceneManager.GetActiveScene();
+                    //SceneManager.LoadScene(currentScene.name);
                 }
                 //*****************************************
                 if (hit.collider.tag == "PassablePlatform")

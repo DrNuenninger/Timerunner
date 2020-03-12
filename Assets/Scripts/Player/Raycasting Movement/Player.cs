@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float minJumpHeight = 1f;
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
-    
+    private bool lockMovement = false;
     
     public float movespeed = 6f;
     public float sprintSpeedModifier = 2f;
@@ -73,6 +73,11 @@ public class Player : MonoBehaviour
  
     void Update()
     {
+        if (lockMovement)
+        {
+            return;
+        }
+
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
         float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
@@ -298,8 +303,12 @@ public class Player : MonoBehaviour
         animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
         animator.SetBool("isWallsliding", wallSliding);
         animator.SetBool("isSliding", isCrouchSliding);
-        bool flipX = (controller.collissions.faceDirection == -1);
-        animator.SetBool("flipX", flipX);
+        if (controller.isDead)
+        {
+            animator.SetBool("isDead", controller.isDead);
+            lockMovement = true;
+        }
+
         
         if (controller.collissions.above || controller.collissions.below)
         {
