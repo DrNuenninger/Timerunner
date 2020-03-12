@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Load_Manager;
 
 [RequireComponent(typeof(Controller2D))]
 [RequireComponent(typeof(Sprite))]
 public class Player : MonoBehaviour
 {
+    public Animator animator;
+
+    public Transform originalSpawnPoint;
+    private Transform currentSpawnPoint;
+
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
-    
+    private bool lockMovement = false;
     
     public float movespeed = 6f;
     public float sprintSpeedModifier = 2f;
@@ -45,6 +51,8 @@ public class Player : MonoBehaviour
    
     public bool initPossibleCrouchSlide;
 
+    
+
 
 
     //Wallslide variables
@@ -59,7 +67,8 @@ public class Player : MonoBehaviour
     
 
     void Start()
-    {        
+    {
+        currentSpawnPoint = originalSpawnPoint;
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -67,14 +76,55 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
     }
 
+    void Respawn()
+    {
+        velocityXSmoothing = new float();
+        velocity.x = 0f;
+        velocity.y = 0f;
+        controller.wasCrouchedLastFrame = false;
+        isCrouchSliding = false;
+        crouchIsPressed = false;
+        currentSprintSpeed = 0f;
+        transform.position = currentSpawnPoint.position;
+        controller.isDead = false;
+    }
  
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            controller.isDead = true;
+        }
+        if (controller.isDead)
+        {
+            animator.SetBool("isDead", controller.isDead);
+            lockMovement = true;
+        }
+        else
+        {
+            animator.SetBool("isDead", controller.isDead);
+            lockMovement = false;
+        }
+
+        if (lockMovement)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Respawn();
+            }
+            return;
+        }
+
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirectionX = (controller.collissions.left) ? -1 : 1;
         float targetSprintSpeed = (movespeed * sprintSpeedModifier) - movespeed;
         float targetVelocityX;
         float localCrouchSpeedMultiplier;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Load_Manager.load_Manager.escape_Action();
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && Mathf.Abs(velocity.x) > Mathf.Abs(1 * movespeed * crouchSpeedMultiplier))
         {
@@ -90,10 +140,13 @@ public class Player : MonoBehaviour
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
             localCrouchSpeedMultiplier = 0.6f;
+
+            
             if (initPossibleCrouchSlide && !crouchSlideSlowdown)
             {
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
+                
                 localCrouchSpeedMultiplier = 1f;
                 if (!controller.collissions.below)
                 {
@@ -141,7 +194,7 @@ public class Player : MonoBehaviour
             localCrouchSpeedMultiplier = 1f;
             extraCrouchSlideSpeed = 0f;
         }
-
+        //++++
         if (Input.GetKey(KeyCode.LeftShift)) {
             //Wenn der Spieler rennt, sich aber duckt, setze den Sprintspeed wieder richtung 0
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
@@ -221,6 +274,7 @@ public class Player : MonoBehaviour
                 timeToWallUnstick = wallStickTime;
             }
         }
+        
         if (Input.GetKeyDown(KeyCode.LeftControl)){
             //print("Set Iscoruched");
             crouchIsPressed = true;
@@ -282,7 +336,13 @@ public class Player : MonoBehaviour
 
         //Bewegt den Spieler
         controller.Move(velocity * Time.deltaTime, input, false, crouchIsPressed, wallSliding, isCrouchSliding);
+        animator.SetFloat("moveSpeed", Mathf.Abs((velocity.x / (movespeed*sprintSpeedModifier))*2));
+        animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
+        animator.SetBool("isWallsliding", wallSliding);
+        animator.SetBool("isSliding", isCrouchSliding);
+        
 
+        
         if (controller.collissions.above || controller.collissions.below)
         {
             velocity.y = 0;

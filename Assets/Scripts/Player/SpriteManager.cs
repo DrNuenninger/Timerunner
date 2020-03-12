@@ -24,7 +24,7 @@ public class SpriteManager : MonoBehaviour
 
     public void FlipSpriteX(bool flipX)
     {
-        renderer.flipX = flipX;
+        renderer.flipX = !flipX;
     }
 
     public void UpdateSprite(Sprite newSprite)
