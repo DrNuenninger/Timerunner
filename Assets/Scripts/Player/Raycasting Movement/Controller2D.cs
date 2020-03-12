@@ -330,6 +330,7 @@ public class Controller2D : RayCastController
                 if (hit.collider.gameObject.tag == "Killzone")
                 {
                     isDead = true;
+                    print("+++++++++++++++++++++++++++++++++++++++++++++++");
                     //Scene currentScene = SceneManager.GetActiveScene();
                     //SceneManager.LoadScene(currentScene.name);
                 }

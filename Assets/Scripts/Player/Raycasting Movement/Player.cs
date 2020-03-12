@@ -78,6 +78,9 @@ public class Player : MonoBehaviour
 
     void Respawn()
     {
+        velocityXSmoothing = new float();
+        velocity.x = 0;
+        velocity.y = 0;
         transform.position = currentSpawnPoint.position;
         controller.isDead = false;
     }
