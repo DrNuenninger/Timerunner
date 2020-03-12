@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3195599430206928513}
   - component: {fileID: 3195599430206928512}
   - component: {fileID: 3195599429738368679}
+  - component: {fileID: 1226711503}
+  - component: {fileID: 1226711509}
   m_Layer: 9
   m_Name: Player_temp 1
   m_TagString: Player
@@ -30,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3195599430206928515}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.09, y: 13.06, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.845, y: 0.78, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,9 +75,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c2b526f1ea2cd98489fecf4edbb83a76, type: 3}
-  m_Color: {r: 0.7070458, g: 0.8584906, b: 0.09313814, a: 1}
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 18f75cda7e058bd4a9ae652624407357, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,18 +100,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0019242167, y: -0.09051162}
+  m_Offset: {x: 0, y: -0.2673662}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 0.32, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75754917, y: 1.8094882}
+  m_Size: {x: 0.62, y: 1.4102156}
   m_EdgeRadius: 0
 --- !u!114 &3195599430206928513
 MonoBehaviour:
@@ -131,6 +133,8 @@ MonoBehaviour:
   collider: {fileID: 3195599430206928518}
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
+  squashingHorizontalRaySpacing: 0
+  squashingVerticalRaySpacing: 0
   maxClimbAngle: 60
   maxDecentAngle: 60
   wasCrouchedLastFrame: 0
@@ -147,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ff6e018b7b5a842b90aa7646470e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1226711503}
   maxJumpHeight: 4
   minJumpHeight: 1
   timeToJumpApex: 0.4
@@ -158,6 +163,8 @@ MonoBehaviour:
   crouchSpeedMultiplier: 0.6
   isCrouchSliding: 0
   crouchSlideSlowdown: 0
+  maxExtraCrouchSlideSpeed: 12
+  minCrouchSlideExtraSpeedAngle: 20
   crouchSlideSlowdownTime: 0.5
   maxCrouchSlideTime: 0.5
   initPossibleCrouchSlide: 0
@@ -185,3 +192,34 @@ MonoBehaviour:
   wallSlidingSprite: {fileID: 21300000, guid: 22c5fe0b29591af4a88e168ae070b1e2, type: 3}
   crouchSlidingSprite: {fileID: 21300000, guid: 4fef3f6a870409f40a8028ec2f2e43bd,
     type: 3}
+--- !u!95 &1226711503
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195599430206928515}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 45c596d4dcb2742089af3f717fab7de4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1226711509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195599430206928515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d5a205667c42448acc77de408b70e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
