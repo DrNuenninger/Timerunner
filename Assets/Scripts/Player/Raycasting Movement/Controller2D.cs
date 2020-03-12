@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Vector2 = UnityEngine.Vector2;
@@ -14,7 +15,8 @@ public class Controller2D : RayCastController
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
     public bool isDead = false;
-    
+    private Player player;
+
 
     private SpriteManager spriteManager;
 
@@ -34,6 +36,7 @@ public class Controller2D : RayCastController
         oldColliderOffset = collider.offset;
         collissions.faceDirection = 1;
         spriteManager = this.GetComponent<SpriteManager>();
+        player = this.GetComponent<Player>();
     }
 
     void ResetFallingThroughPlatform()
@@ -64,6 +67,8 @@ public class Controller2D : RayCastController
         public Vector3 velocityOld;
         public int faceDirection;
         public bool fallingThorughPlatform;
+
+        
         
 
         public void Reset()
@@ -188,6 +193,7 @@ public class Controller2D : RayCastController
                             {
                                 //TODO: Add Player Death Logic Function
                                 print("Kill Player");
+                                isDead = true;
                                 break;                                
                             }
                         }
