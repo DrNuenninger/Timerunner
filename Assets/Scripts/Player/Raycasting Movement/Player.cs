@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
 {
     public Animator animator;
 
+    public Transform originalSpawnPoint;
+    private Transform currentSpawnPoint;
+
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = 0.4f;
@@ -48,6 +51,8 @@ public class Player : MonoBehaviour
    
     public bool initPossibleCrouchSlide;
 
+    
+
 
 
     //Wallslide variables
@@ -62,7 +67,8 @@ public class Player : MonoBehaviour
     
 
     void Start()
-    {        
+    {
+        currentSpawnPoint = originalSpawnPoint;
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -70,11 +76,35 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
     }
 
+    void Respawn()
+    {
+        transform.position = currentSpawnPoint.position;
+        controller.isDead = false;
+    }
  
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            controller.isDead = true;
+        }
+        if (controller.isDead)
+        {
+            animator.SetBool("isDead", controller.isDead);
+            lockMovement = true;
+        }
+        else
+        {
+            animator.SetBool("isDead", controller.isDead);
+            lockMovement = false;
+        }
+
         if (lockMovement)
         {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Respawn();
+            }
             return;
         }
 
@@ -303,11 +333,7 @@ public class Player : MonoBehaviour
         animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
         animator.SetBool("isWallsliding", wallSliding);
         animator.SetBool("isSliding", isCrouchSliding);
-        if (controller.isDead)
-        {
-            animator.SetBool("isDead", controller.isDead);
-            lockMovement = true;
-        }
+        
 
         
         if (controller.collissions.above || controller.collissions.below)
