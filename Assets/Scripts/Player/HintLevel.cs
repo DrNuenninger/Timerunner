@@ -2,16 +2,12 @@
 
 public class HintLevel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    
-    
     GameObject hintablePast;
     GameObject hintablePresent;
     SwitchTime switchTime;
     bool presentOrPast = true;
     bool hintInProgress = false;
-    float fadeInFactor;
-    int fadeInSeconds = 4;
+    float fadeOutFactor;
 
     void Start()
     {
@@ -20,7 +16,6 @@ public class HintLevel : MonoBehaviour
         hintablePresent = GameObject.Find("Hint_Present");
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && !hintInProgress)
@@ -36,7 +31,7 @@ public class HintLevel : MonoBehaviour
     {
         hintInProgress = true;
         presentOrPast = switchTime.presentOrPast;
-        fadeInFactor = 0;
+        fadeOutFactor = 0;
         if (presentOrPast)
         {
             fadeIn();
@@ -55,15 +50,15 @@ public class HintLevel : MonoBehaviour
             hintable = hintablePresent;
         }
 
-        fadeInFactor = fadeInFactor + Time.deltaTime;
+        fadeOutFactor = fadeOutFactor + Time.deltaTime;
         foreach (Transform child in hintable.transform)
         {
             Color currentColor = child.gameObject.GetComponent<Renderer>().material.color;
-            currentColor.a = Mathf.Max(0, 1 - fadeInFactor);
+            currentColor.a = Mathf.Max(0, 1 - fadeOutFactor);
             child.gameObject.GetComponent<Renderer>().material.color = currentColor;
         }
 
-        if (fadeInFactor > 1)
+        if (fadeOutFactor > 1)
         {
             hintInProgress = false;
         }
