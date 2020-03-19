@@ -99,9 +99,7 @@ public class Player : MonoBehaviour
  
     void Update()
     {
-        print("BS "+currentBonusSpeed);
-        print("SS " + currentSprintSpeed);
-
+        
         if (Input.GetKeyDown(KeyCode.J))
         {
             controller.isDead = true;

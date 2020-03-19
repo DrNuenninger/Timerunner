@@ -6,16 +6,18 @@ public class goombaAi : RayCastController
 {
     public float speed = 0;
     bool movingRight = true;
+
+
   
     void Update()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
         UpdateRayCastOrigins();
-
+        print(verticalRaySpacing);
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = rayCastOrigins.bottomLeft;
-            rayOrigin += Vector2.right * (horizontalRaySpacing * i);
+            rayOrigin += Vector2.right * (verticalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, 2f, collissionMask);
             Debug.DrawRay(rayOrigin, Vector2.down, Color.red);
 
