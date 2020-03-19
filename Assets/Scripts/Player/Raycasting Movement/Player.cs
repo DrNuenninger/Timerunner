@@ -99,6 +99,9 @@ public class Player : MonoBehaviour
  
     void Update()
     {
+        print("BS "+currentBonusSpeed);
+        print("SS " + currentSprintSpeed);
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             controller.isDead = true;
@@ -202,7 +205,6 @@ public class Player : MonoBehaviour
             localCrouchSpeedMultiplier = 1f;
             extraCrouchSlideSpeed = 0f;
         }
-        print(currentBonusSpeed);
         if (Input.GetKey(KeyCode.LeftShift)) {
             //Wenn der Spieler rennt, sich aber duckt, setze den Sprintspeed wieder richtung 0
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
