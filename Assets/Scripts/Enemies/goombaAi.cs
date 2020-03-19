@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class goombaAi : RayCastController
+public class GoombaAi : RayCastController
 {
     public float speed = 0;
     bool movingRight = true;
@@ -13,7 +11,6 @@ public class goombaAi : RayCastController
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
         UpdateRayCastOrigins();
-        print(verticalRaySpacing);
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = rayCastOrigins.bottomLeft;
