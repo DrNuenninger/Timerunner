@@ -1699,6 +1699,21 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5277200062173709735, guid: b6555005c216ee6438cf5a9dda968ebf,
         type: 3}
       propertyPath: m_Name
@@ -4521,6 +4536,21 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5277200062173709735, guid: b6555005c216ee6438cf5a9dda968ebf,
         type: 3}
       propertyPath: m_Name
@@ -4941,6 +4971,21 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5277200062173709735, guid: b6555005c216ee6438cf5a9dda968ebf,
         type: 3}
       propertyPath: m_Name
@@ -5263,6 +5308,18 @@ PrefabInstance:
     - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
       propertyPath: speed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 612484695581722918, guid: 87392227e52e405448f180cd4830e6bd,
         type: 3}
@@ -5920,6 +5977,21 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702772768940127760, guid: b6555005c216ee6438cf5a9dda968ebf,
+        type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5277200062173709735, guid: b6555005c216ee6438cf5a9dda968ebf,
         type: 3}
@@ -7652,6 +7724,18 @@ PrefabInstance:
     - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
       propertyPath: speed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: horizontalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: verticalRayCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201718430, guid: 87392227e52e405448f180cd4830e6bd, type: 3}
+      propertyPath: passengerMask.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 612484695581722918, guid: 87392227e52e405448f180cd4830e6bd,
         type: 3}
