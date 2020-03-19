@@ -37,6 +37,7 @@ public class RayCastController : MonoBehaviour
     public virtual void Start()
     {
         CalculateRaySpacing();
+        UpdateRayCastOrigins();
     }
 
     public struct RayCastOrigins
