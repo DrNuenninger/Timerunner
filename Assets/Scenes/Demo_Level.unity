@@ -7948,20 +7948,25 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1226711503}
+    - target: {fileID: 3195599430206928513, guid: 9a926c174ee81334991d44e1e58b606c,
+        type: 3}
+      propertyPath: isDead
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928515, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
       propertyPath: m_Name
-      value: Player_temp
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.64
+      value: -3.807
       objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.94
+      value: 0.612
       objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
@@ -8668,7 +8673,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0.084007144, y: 0.044705868}
   m_SpriteTilingProperty:
