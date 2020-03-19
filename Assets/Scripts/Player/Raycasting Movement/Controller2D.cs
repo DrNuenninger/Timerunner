@@ -15,6 +15,8 @@ public class Controller2D : RayCastController
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
     public bool isDead = false;
+    private Player player;
+
 
     private SpriteManager spriteManager;
 
@@ -34,6 +36,7 @@ public class Controller2D : RayCastController
         oldColliderOffset = collider.offset;
         collissions.faceDirection = 1;
         spriteManager = this.GetComponent<SpriteManager>();
+        player = this.GetComponent<Player>();
     }
 
     void ResetFallingThroughPlatform()
