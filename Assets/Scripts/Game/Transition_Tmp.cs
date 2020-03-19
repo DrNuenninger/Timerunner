@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour
+public class Transition_Tmp : MonoBehaviour
 {
+    public Load_Manager lm;
     // Start is called before the first frame update
     void Start()
     {

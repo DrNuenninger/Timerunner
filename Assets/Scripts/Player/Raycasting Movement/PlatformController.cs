@@ -126,6 +126,7 @@ public class PlatformController : RayCastController
 
     void CalculatePassengerMovement(Vector3 velocity)
     {
+        
         HashSet<Transform> movedPassengers = new HashSet<Transform>();
         passengerMovement = new List<PassengerMovement>();
 

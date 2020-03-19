@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Load_Manager : MonoBehaviour //Loads and manages available Save-Games
 {
     public static Load_Manager load_Manager;
+    public string currentLevel = "Main_Menu";
     void Start()
     {
         if (load_Manager)
@@ -32,5 +33,9 @@ public class Load_Manager : MonoBehaviour //Loads and manages available Save-Gam
     public void load_LevelSelect()
     {
         SceneManager.LoadScene("Level_Select", LoadSceneMode.Single);
+    }
+    public void load_Level(string scenename)
+    {
+        SceneManager.LoadScene(scenename, LoadSceneMode.Single);
     }
 }

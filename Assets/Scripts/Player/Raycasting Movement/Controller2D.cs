@@ -180,7 +180,7 @@ public class Controller2D : RayCastController
                 {
                     for (int e = 0; e < horizontalRayCount; e++)
                     {
-                        print("FaceDirection = " + collissions.faceDirection);
+                        //print("FaceDirection = " + collissions.faceDirection);
                         Vector2 rayOrigin2 = (directionX == -1) ? rayCastOrigins.bottomRight : rayCastOrigins.bottomLeft ;
                         rayOrigin2 += Vector2.up * (horizontalRaySpacing * i);
                         RaycastHit2D hit2 = Physics2D.Raycast(rayOrigin2, Vector2.right * -directionX, rayLength, collissionMask);
@@ -330,7 +330,7 @@ public class Controller2D : RayCastController
                 if (hit.collider.gameObject.tag == "Killzone")
                 {
                     isDead = true;
-                    print("+++++++++++++++++++++++++++++++++++++++++++++++");
+                    
                     //Scene currentScene = SceneManager.GetActiveScene();
                     //SceneManager.LoadScene(currentScene.name);
                 }

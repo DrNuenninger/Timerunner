@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
 {
     public Animator animator;
 
-    public Transform originalSpawnPoint;
-    private Transform currentSpawnPoint;
+    private ReactToCheckPoints checkpoints;
+    
 
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1f;
@@ -24,6 +24,13 @@ public class Player : MonoBehaviour
     public float movespeed = 6f;
     public float sprintSpeedModifier = 2f;
     public float accelerationTimeSprint = 0.4f;
+    public float maxBonusSpeed = 5f;
+    public float accelerationTimeBonusSpeed = 2f;
+    private float bonusSpeedSmoothingLeft;
+    private float bonusSpeedSmoothingRight;
+    private float bonusSpeedSmoothingStop;
+
+    private float currentBonusSpeed = 0f;
     private float currentSprintSpeed = 0f;
     private float speedSmoothing;
 
@@ -68,12 +75,13 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        currentSpawnPoint = originalSpawnPoint;
+        checkpoints = this.GetComponent<ReactToCheckPoints>();
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
+        
     }
 
     void Respawn()
@@ -85,12 +93,13 @@ public class Player : MonoBehaviour
         isCrouchSliding = false;
         crouchIsPressed = false;
         currentSprintSpeed = 0f;
-        transform.position = currentSpawnPoint.position;
+        transform.position = checkpoints.GetCurrentSpawnpoint().position;
         controller.isDead = false;
     }
  
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.J))
         {
             controller.isDead = true;
@@ -135,7 +144,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-        print(extraCrouchSlideSpeed);
+        //print(extraCrouchSlideSpeed);
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
@@ -194,28 +203,41 @@ public class Player : MonoBehaviour
             localCrouchSpeedMultiplier = 1f;
             extraCrouchSlideSpeed = 0f;
         }
-        //++++
         if (Input.GetKey(KeyCode.LeftShift)) {
             //Wenn der Spieler rennt, sich aber duckt, setze den Sprintspeed wieder richtung 0
             if (controller.wasCrouchedLastFrame && !isCrouchSliding)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                     accelerationTimeSprint / 2);
+
+                currentBonusSpeed = Mathf.SmoothDamp(currentBonusSpeed, 0f, ref bonusSpeedSmoothingStop,
+                    0.1f);
             }
-            else if (controller.collissions.below && input.x > 0 && !isCrouchSliding)
+            else if ( input.x > 0 && !isCrouchSliding)
             {
+                bonusSpeedSmoothingLeft = new float();
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
+
+                currentBonusSpeed = Mathf.SmoothDamp(currentBonusSpeed, maxBonusSpeed, ref bonusSpeedSmoothingRight,
+                    accelerationTimeBonusSpeed);
             }
-            else if (controller.collissions.below && input.x < 0 && !isCrouchSliding)
+            else if ( input.x < 0 && !isCrouchSliding)
             {
+                bonusSpeedSmoothingRight = new float();
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, -targetSprintSpeed, ref speedSmoothing,
                     accelerationTimeSprint);
+
+                currentBonusSpeed = Mathf.SmoothDamp(currentBonusSpeed, -maxBonusSpeed, ref bonusSpeedSmoothingLeft,
+                    accelerationTimeBonusSpeed);
             }
             else if (input.x == 0)
             {
                 currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                     accelerationTimeSprint / 2);
+
+                currentBonusSpeed = Mathf.SmoothDamp(currentBonusSpeed, 0f, ref bonusSpeedSmoothingStop,
+                    0.1f);
             }
             else if ((!controller.collissions.below && Mathf.Sign(input.x) == Mathf.Sign(currentSprintSpeed)) || isCrouchSliding)
             {
@@ -227,13 +249,17 @@ public class Player : MonoBehaviour
         {
             currentSprintSpeed = Mathf.SmoothDamp(currentSprintSpeed, 0f, ref speedSmoothing,
                 accelerationTimeSprint / 2);
+
+            currentBonusSpeed = Mathf.SmoothDamp(currentBonusSpeed, 0f, ref bonusSpeedSmoothingStop,
+                0.1f);
         }
-        targetVelocityX = (input.x * movespeed + currentSprintSpeed) * localCrouchSpeedMultiplier + extraCrouchSlideSpeed;
+        targetVelocityX = (input.x * movespeed + currentSprintSpeed) * localCrouchSpeedMultiplier + extraCrouchSlideSpeed + currentBonusSpeed;
         //Erlaubt ein momentumbasiertes Bewegunssystem
         if ((controller.collissions.left && input.x < 0) || (controller.collissions.right && input.x > 0))
         {
             velocity.x = 0f;
             currentSprintSpeed = 0f;
+            currentBonusSpeed = 0f;
         }
         else
         { 
