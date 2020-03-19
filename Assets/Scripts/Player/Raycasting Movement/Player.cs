@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
 {
     public Animator animator;
 
-    public Transform originalSpawnPoint;
-    private Transform currentSpawnPoint;
+    private ReactToCheckPoints checkpoints;
+    
 
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1f;
@@ -68,12 +68,13 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        currentSpawnPoint = originalSpawnPoint;
+        checkpoints = this.GetComponent<ReactToCheckPoints>();
         //Berechnet die Schwerkraft und Sprunggeschwindigkeit
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
+        
     }
 
     void Respawn()
@@ -85,7 +86,7 @@ public class Player : MonoBehaviour
         isCrouchSliding = false;
         crouchIsPressed = false;
         currentSprintSpeed = 0f;
-        transform.position = currentSpawnPoint.position;
+        transform.position = checkpoints.GetCurrentSpawnpoint().position;
         controller.isDead = false;
     }
  
@@ -135,7 +136,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-        print(extraCrouchSlideSpeed);
+        //print(extraCrouchSlideSpeed);
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
