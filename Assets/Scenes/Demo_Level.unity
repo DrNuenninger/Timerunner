@@ -6227,6 +6227,10 @@ MonoBehaviour:
   verticalOffset: 1
   lookSmoothTimeX: 1
   verticalSmoothTime: 0.1
+  xMin: -5
+  xMax: 108.15
+  yMin: -2.5
+  yMax: 0
 --- !u!114 &1109018215
 MonoBehaviour:
   m_ObjectHideFlags: 0
