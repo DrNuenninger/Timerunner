@@ -12,6 +12,8 @@ public class CameraFollow : MonoBehaviour
     public float verticalOffset;
     public float lookSmoothTimeX;
     public float verticalSmoothTime;
+    public float xMin, xMax;
+    public float yMin, yMax;
 
     private float currentLookAheadX;
     private float targetLookAheadX;
@@ -108,6 +110,12 @@ public class CameraFollow : MonoBehaviour
         focusPosition += Vector2.right * currentLookAheadX;
 
         transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+        transform.position = new Vector3
+            (
+                Mathf.Clamp(transform.position.x, xMin, xMax),
+                Mathf.Clamp(transform.position.y, yMin, yMax),
+                transform.position.z
+            );
     }
 
     void OnDrawGizmos()
