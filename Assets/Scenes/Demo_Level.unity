@@ -1960,6 +1960,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6d9e68977a90a4b87dc70c1da63811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minLeftAngle: 0
+  maxLeftAngle: 180
+  minRightAngle: 0
+  maxRightAngle: 180
 --- !u!212 &301797127
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6489,7 +6493,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1109018219
 MonoBehaviour:
@@ -6700,6 +6704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1188637004}
   - component: {fileID: 1188637003}
+  - component: {fileID: 1188637005}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -6765,7 +6770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188637002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 1, z: 0}
+  m_LocalPosition: {x: 0.22, y: 2.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1089200630}
@@ -6775,6 +6780,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1188637005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188637002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31b5ec9a4630ee43a4c7d4174645cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missle: {fileID: 2751282858332326922, guid: ad8df62eb8fa555419a6b61183512ba3, type: 3}
+  DelayBetweenShots: 2.5
 --- !u!1 &1226711502 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3195599430206928515, guid: 9a926c174ee81334991d44e1e58b606c,
@@ -8446,12 +8465,12 @@ PrefabInstance:
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.11
+      value: -6.15
       objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.38
+      value: -1.96
       objectReference: {fileID: 0}
     - target: {fileID: 3195599430206928516, guid: 9a926c174ee81334991d44e1e58b606c,
         type: 3}
@@ -11471,7 +11490,7 @@ PrefabInstance:
     - target: {fileID: 7799722425880336538, guid: 408bbe2d15da2c2459c13d6513f11060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7799722425880336538, guid: 408bbe2d15da2c2459c13d6513f11060,
         type: 3}
