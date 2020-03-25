@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public Animator animator;
 
     private ReactToCheckPoints checkpoints;
+    public GameObject blood;
+    private bool bloodIsSpawned = false;
     
 
     public float maxJumpHeight = 4;
@@ -95,6 +97,8 @@ public class Player : MonoBehaviour
         currentSprintSpeed = 0f;
         transform.position = checkpoints.GetCurrentSpawnpoint().position;
         controller.isDead = false;
+        controller.isSplashed = false;
+        bloodIsSpawned = false;
     }
  
     void Update()
@@ -106,12 +110,19 @@ public class Player : MonoBehaviour
         }
         if (controller.isDead)
         {
+            if (controller.isSplashed && !bloodIsSpawned)
+            {
+                animator.SetBool("isSplashed", controller.isSplashed);
+                Instantiate(blood, transform.position, Quaternion.identity);
+                bloodIsSpawned = true;
+            }            
             animator.SetBool("isDead", controller.isDead);
             lockMovement = true;
         }
         else
         {
             animator.SetBool("isDead", controller.isDead);
+            animator.SetBool("isSplashed", controller.isSplashed);
             lockMovement = false;
         }
 
