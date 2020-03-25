@@ -16,8 +16,10 @@ public class CheckpointBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        print(isAktivated);
         if (col.tag == "Player" && !isAktivated)
         {
+            print("Changing Checkpoint sprite");
             renderer.sprite = checkPointAktivated;
         }
     }
