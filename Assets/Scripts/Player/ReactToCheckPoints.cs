@@ -24,6 +24,7 @@ public class ReactToCheckPoints : MonoBehaviour
             {
                 currentSpawnPoint = col.transform;
                 checkpointBehaviour.isAktivated = true;
+                checkpointBehaviour.ChangeSprite();
                 print("Setting Spawnpoint to : " + col.name);
             }
         }
