@@ -22,6 +22,7 @@ public class Missle : MonoBehaviour
         if (damageableInRadius.Length == 1)
         {
             damageableInRadius[0].gameObject.GetComponent<Controller2D>().isDead = true;
+            damageableInRadius[0].gameObject.GetComponent<Controller2D>().isSplashed = true;
         }
         Destroy(gameObject);
     }
