@@ -51,7 +51,7 @@ MonoBehaviour:
     source: {fileID: 0}
     loop: 0
   - name: PlayerDeath
-    clip: {fileID: 8300000, guid: f973f4d90eb78014487361d1a64fef00, type: 3}
+    clip: {fileID: 8300000, guid: 4f96a062b33d2144b8d55c9ffdc5ed94, type: 3}
     volume: 1
     pitch: 1.097
     source: {fileID: 0}
