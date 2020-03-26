@@ -68,3 +68,9 @@ MonoBehaviour:
     pitch: 1.097
     source: {fileID: 0}
     loop: 0
+  - name: CheckpointAktivated
+    clip: {fileID: 8300000, guid: 6572bf2119f73b442b39351a2d75f9d5, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0

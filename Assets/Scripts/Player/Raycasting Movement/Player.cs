@@ -403,14 +403,34 @@ public class Player : MonoBehaviour
 
     }
 
+
+    private float minAirTime = 0.5f;
+    private float airTime = 0f;
+    private bool airTimeHasPassed = false;
     void PlayImpactAudio(bool isWallSliding)
     {
-        if (controller.collissions.below || isWallSliding)
+        if (!playerHasImpacted && !((controller.collissions.below || controller.collissions.descendingSlope || controller.collissions.climbingSlope) || isWallSliding))
+        {
+            airTime += Time.deltaTime;
+            if (airTime >= minAirTime)
+            {
+                airTimeHasPassed = true;
+                airTime = 0f;
+            }
+        }
+        else
+        {
+            airTime = 0f;
+        }
+        
+
+        if (airTimeHasPassed && ((controller.collissions.below || controller.collissions.descendingSlope || controller.collissions.climbingSlope) || isWallSliding))
         {
             if (!playerHasImpacted)
             {
                 FindObjectOfType<SoundManager>().Play("PlayerImpact");
                 playerHasImpacted = true;
+                airTimeHasPassed = false;
             }
         }
         else

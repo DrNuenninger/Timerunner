@@ -25,6 +25,8 @@ public class ReactToCheckPoints : MonoBehaviour
                 currentSpawnPoint = col.transform;
                 checkpointBehaviour.isAktivated = true;
                 checkpointBehaviour.ChangeSprite();
+
+                FindObjectOfType<SoundManager>().Play("CheckpointAktivated");
                 print("Setting Spawnpoint to : " + col.name);
             }
         }
