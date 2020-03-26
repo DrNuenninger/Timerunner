@@ -4,12 +4,34 @@ using UnityEngine;
 
 public class Game_Save : MonoBehaviour
 {
+    public static Game_Save gameSave;
     public int currentLevel;
     public ArrayList levelList = new ArrayList();
     public string levelPath = "";
 
-    public void loadLevelList(string levelPath)
+    void Start()
     {
-        //loads the set of created levels into the ArrayList; gets called on Start of the Game
+        if (gameSave)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            gameSave = this;
+        }
+    }
+
+    public void loadLevelList(string levelPath)//loads the set of created levels into the ArrayList; gets called on Start of the Game
+    {
+        
+    }
+    public void loadLevelList()
+    {
+        Level_Save demoLevel = new Level_Save();
+        demoLevel.levelname = "Demo_Level";
+        levelList.Add(demoLevel);
+        Level_Save level1 = new Level_Save();
+        level1.levelname = "RaycastingMovement_DevRoom";
+        levelList.Add(level1);
     }
 }

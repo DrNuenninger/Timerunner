@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4070201695198171257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1625855101014995750}
+  - component: {fileID: 8246178381941551267}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1625855101014995750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070201695198171257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.8880424, y: 0.19592513, z: -54.390625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8246178381941551267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070201695198171257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e34923b5601ab448cefd4a220a73f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: PlayerStep
+    clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
+    volume: 1
+    pitch: 1.663
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerDeath
+    clip: {fileID: 8300000, guid: 4f96a062b33d2144b8d55c9ffdc5ed94, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerImpact
+    clip: {fileID: 8300000, guid: 13bf547f781171e4f80214c995b10a75, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerJump
+    clip: {fileID: 8300000, guid: 2efec211948fcf841b6581b30e2b66dc, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: CheckpointAktivated
+    clip: {fileID: 8300000, guid: 6572bf2119f73b442b39351a2d75f9d5, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerCrushed
+    clip: {fileID: 8300000, guid: 84a58dbe918a1514aad561a880363a1d, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    source: {fileID: 0}
+    loop: 0
+  - name: TimeSwitch
+    clip: {fileID: 8300000, guid: fcc92be6e5dad2549af1a513afb9efee, type: 3}
+    volume: 1
+    pitch: 1.523
+    source: {fileID: 0}
+    loop: 0

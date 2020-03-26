@@ -15,6 +15,7 @@ public class Controller2D : RayCastController
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
     public bool isDead = false;
+    public bool isSplashed = false;
     private Player player;
 
 
@@ -191,9 +192,10 @@ public class Controller2D : RayCastController
                         { 
                             if(hit2.distance == 0)
                             {
-                                //TODO: Add Player Death Logic Function
+                                //Player is Squashed
                                 print("Kill Player");
                                 isDead = true;
+                                isSplashed = true;
                                 break;                                
                             }
                         }
@@ -326,15 +328,6 @@ public class Controller2D : RayCastController
                     velocity.y = -directionY * skinwidth;
                     continue;
                 }
-                //TODO: Macht wenig Sinn das hier zu haben, das hat nichts mit movement zu tun, sollte seperate script sein, und Rays sind hier overkill, beide haben einen Collider, da kannste einfach nach overlap suchen
-                if (hit.collider.gameObject.tag == "Killzone")
-                {
-                    isDead = true;
-                    
-                    //Scene currentScene = SceneManager.GetActiveScene();
-                    //SceneManager.LoadScene(currentScene.name);
-                }
-                //*****************************************
                 if (hit.collider.tag == "PassablePlatform")
                 {
                     if (directionY == 1 || hit.distance == 0)
