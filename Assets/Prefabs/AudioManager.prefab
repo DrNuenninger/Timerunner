@@ -80,3 +80,9 @@ MonoBehaviour:
     pitch: 0.5
     source: {fileID: 0}
     loop: 0
+  - name: TimeSwitch
+    clip: {fileID: 8300000, guid: fcc92be6e5dad2549af1a513afb9efee, type: 3}
+    volume: 1
+    pitch: 1.523
+    source: {fileID: 0}
+    loop: 0
