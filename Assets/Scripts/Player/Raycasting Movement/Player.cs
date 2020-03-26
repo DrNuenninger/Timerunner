@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private ReactToCheckPoints checkpoints;
     public GameObject blood;
     private bool bloodIsSpawned = false;
+    private bool deathSoundIsPlayed = false;
     
 
     public float maxJumpHeight = 4;
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
     private bool lockMovement = false;
+
+    private bool playerHasImpacted = false;
     
     public float movespeed = 6f;
     public float sprintSpeedModifier = 2f;
@@ -99,6 +102,7 @@ public class Player : MonoBehaviour
         controller.isDead = false;
         controller.isSplashed = false;
         bloodIsSpawned = false;
+        deathSoundIsPlayed = false;
     }
  
     void Update()
@@ -110,6 +114,11 @@ public class Player : MonoBehaviour
         }
         if (controller.isDead)
         {
+            if (!deathSoundIsPlayed)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerDeath");
+                deathSoundIsPlayed = true;
+            }
             if (controller.isSplashed && !bloodIsSpawned)
             {
                 animator.SetBool("isSplashed", controller.isSplashed);
@@ -349,6 +358,7 @@ public class Player : MonoBehaviour
                     velocity.x = -wallDirectionX * wallJumpLarge.x;
                     velocity.y = wallJumpLarge.y;
                 }
+                FindObjectOfType<SoundManager>().Play("PlayerJump");
             }
 
             if (controller.collissions.below)
@@ -358,7 +368,9 @@ public class Player : MonoBehaviour
                     crouchIsPressed = false;
                 }
                 velocity.y = maxJumpVelocity;
+                FindObjectOfType<SoundManager>().Play("PlayerJump");
             }
+            
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
@@ -377,13 +389,36 @@ public class Player : MonoBehaviour
         animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
         animator.SetBool("isWallsliding", wallSliding);
         animator.SetBool("isSliding", isCrouchSliding);
-        
 
-        
+        //Player Impact Audio when Player lands on floor
+        PlayImpactAudio(wallSliding);
+
+
+
+
         if (controller.collissions.above || controller.collissions.below)
         {
             velocity.y = 0;
         }
 
     }
+
+    void PlayImpactAudio(bool isWallSliding)
+    {
+        if (controller.collissions.below || isWallSliding)
+        {
+            if (!playerHasImpacted)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerImpact");
+                playerHasImpacted = true;
+            }
+        }
+        else
+        {
+            playerHasImpacted = false;
+        }
+
+    }
+
+
 }

@@ -44,11 +44,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: PlayerStepLeft
+  - name: PlayerStep
     clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
     volume: 1
     pitch: 1.663
-  - name: PlayerStepRight
-    clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerDeath
+    clip: {fileID: 8300000, guid: f973f4d90eb78014487361d1a64fef00, type: 3}
     volume: 1
     pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerImpact
+    clip: {fileID: 8300000, guid: 13bf547f781171e4f80214c995b10a75, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerJump
+    clip: {fileID: 8300000, guid: 2efec211948fcf841b6581b30e2b66dc, type: 3}
+    volume: 1
+    pitch: 1.097
+    source: {fileID: 0}
+    loop: 0
