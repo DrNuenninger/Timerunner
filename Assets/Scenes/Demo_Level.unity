@@ -8633,6 +8633,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3320119975262570437, guid: 811eb556a333e994c9eb655970ea9d9c,
+        type: 3}
+      propertyPath: delayBetweenShots
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320119975262570438, guid: 811eb556a333e994c9eb655970ea9d9c,
+        type: 3}
+      propertyPath: aimSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3320119975360237438, guid: 811eb556a333e994c9eb655970ea9d9c,
         type: 3}
       propertyPath: m_LocalRotation.z
@@ -8697,6 +8707,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d760cb6e80316134f856a70b72b05342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collissionMask:
+    serializedVersion: 2
+    m_Bits: 256
+  horizontalRayCount: 0
+  verticalRayCount: 2
+  collider: {fileID: 0}
+  horizontalRaySpacing: 0
+  verticalRaySpacing: 0
+  squashingHorizontalRaySpacing: 0
+  squashingVerticalRaySpacing: 0
+  speed: 0.5
 --- !u!61 &1776044105
 BoxCollider2D:
   m_ObjectHideFlags: 0
