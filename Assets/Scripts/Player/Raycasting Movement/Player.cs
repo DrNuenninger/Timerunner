@@ -137,6 +137,11 @@ public class Player : MonoBehaviour
 
         if (lockMovement)
         {
+            if (!controller.isSplashed)
+            {
+                controller.Move(Vector3.down * 5 * Time.deltaTime);
+            }
+            
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Respawn();
@@ -404,7 +409,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private float minAirTime = 0.5f;
+    private float minAirTime = 0.2f;
     private float airTime = 0f;
     private bool airTimeHasPassed = false;
     void PlayImpactAudio(bool isWallSliding)
