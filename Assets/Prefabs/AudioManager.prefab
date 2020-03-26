@@ -74,3 +74,9 @@ MonoBehaviour:
     pitch: 1.097
     source: {fileID: 0}
     loop: 0
+  - name: PlayerCrushed
+    clip: {fileID: 8300000, guid: 84a58dbe918a1514aad561a880363a1d, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    source: {fileID: 0}
+    loop: 0

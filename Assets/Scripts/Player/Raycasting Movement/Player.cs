@@ -116,7 +116,15 @@ public class Player : MonoBehaviour
         {
             if (!deathSoundIsPlayed)
             {
-                FindObjectOfType<SoundManager>().Play("PlayerDeath");
+                if (controller.isSplashed)
+                {
+                    FindObjectOfType<SoundManager>().Play("PlayerCrushed");
+                }
+                else
+                {
+                    FindObjectOfType<SoundManager>().Play("PlayerDeath");
+                }
+                
                 deathSoundIsPlayed = true;
             }
             if (controller.isSplashed && !bloodIsSpawned)
