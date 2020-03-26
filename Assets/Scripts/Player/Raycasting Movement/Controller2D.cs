@@ -15,6 +15,7 @@ public class Controller2D : RayCastController
     private bool crouchColliderIsCrouched = false;
     private bool playerAbleToStandUp = false;
     public bool isDead = false;
+    public bool isSplashed = false;
     private Player player;
 
 
@@ -191,9 +192,10 @@ public class Controller2D : RayCastController
                         { 
                             if(hit2.distance == 0)
                             {
-                                //TODO: Add Player Death Logic Function
+                                //Player is Squashed
                                 print("Kill Player");
                                 isDead = true;
+                                isSplashed = true;
                                 break;                                
                             }
                         }

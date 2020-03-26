@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     public Animator animator;
 
     private ReactToCheckPoints checkpoints;
+    public GameObject blood;
+    private bool bloodIsSpawned = false;
+    private bool deathSoundIsPlayed = false;
     
 
     public float maxJumpHeight = 4;
@@ -20,6 +23,8 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = 0.4f;
     private bool crouchIsPressed;
     private bool lockMovement = false;
+
+    private bool playerHasImpacted = false;
     
     public float movespeed = 6f;
     public float sprintSpeedModifier = 2f;
@@ -95,6 +100,9 @@ public class Player : MonoBehaviour
         currentSprintSpeed = 0f;
         transform.position = checkpoints.GetCurrentSpawnpoint().position;
         controller.isDead = false;
+        controller.isSplashed = false;
+        bloodIsSpawned = false;
+        deathSoundIsPlayed = false;
     }
  
     void Update()
@@ -106,17 +114,42 @@ public class Player : MonoBehaviour
         }
         if (controller.isDead)
         {
+            if (!deathSoundIsPlayed)
+            {
+                if (controller.isSplashed)
+                {
+                    FindObjectOfType<SoundManager>().Play("PlayerCrushed");
+                }
+                else
+                {
+                    FindObjectOfType<SoundManager>().Play("PlayerDeath");
+                }
+                
+                deathSoundIsPlayed = true;
+            }
+            if (controller.isSplashed && !bloodIsSpawned)
+            {
+                animator.SetBool("isSplashed", controller.isSplashed);
+                Instantiate(blood, transform.position, Quaternion.identity);
+                bloodIsSpawned = true;
+            }            
             animator.SetBool("isDead", controller.isDead);
             lockMovement = true;
         }
         else
         {
             animator.SetBool("isDead", controller.isDead);
+            animator.SetBool("isSplashed", controller.isSplashed);
             lockMovement = false;
         }
 
         if (lockMovement)
         {
+            if (!controller.isSplashed)
+            {
+                controller.Move(Vector3.down * 5 * Time.deltaTime);
+            }
+            
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Respawn();
@@ -338,6 +371,7 @@ public class Player : MonoBehaviour
                     velocity.x = -wallDirectionX * wallJumpLarge.x;
                     velocity.y = wallJumpLarge.y;
                 }
+                FindObjectOfType<SoundManager>().Play("PlayerJump");
             }
 
             if (controller.collissions.below)
@@ -347,7 +381,9 @@ public class Player : MonoBehaviour
                     crouchIsPressed = false;
                 }
                 velocity.y = maxJumpVelocity;
+                FindObjectOfType<SoundManager>().Play("PlayerJump");
             }
+            
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
@@ -366,13 +402,56 @@ public class Player : MonoBehaviour
         animator.SetBool("isCrouched", controller.wasCrouchedLastFrame);
         animator.SetBool("isWallsliding", wallSliding);
         animator.SetBool("isSliding", isCrouchSliding);
-        
 
-        
+        //Player Impact Audio when Player lands on floor
+        PlayImpactAudio(wallSliding);
+
+
+
+
         if (controller.collissions.above || controller.collissions.below)
         {
             velocity.y = 0;
         }
 
     }
+
+
+    private float minAirTime = 0.2f;
+    private float airTime = 0f;
+    private bool airTimeHasPassed = false;
+    void PlayImpactAudio(bool isWallSliding)
+    {
+        if (!playerHasImpacted && !((controller.collissions.below || controller.collissions.descendingSlope || controller.collissions.climbingSlope) || isWallSliding))
+        {
+            airTime += Time.deltaTime;
+            if (airTime >= minAirTime)
+            {
+                airTimeHasPassed = true;
+                airTime = 0f;
+            }
+        }
+        else
+        {
+            airTime = 0f;
+        }
+        
+
+        if (airTimeHasPassed && ((controller.collissions.below || controller.collissions.descendingSlope || controller.collissions.climbingSlope) || isWallSliding))
+        {
+            if (!playerHasImpacted)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerImpact");
+                playerHasImpacted = true;
+                airTimeHasPassed = false;
+            }
+        }
+        else
+        {
+            playerHasImpacted = false;
+        }
+
+    }
+
+
 }

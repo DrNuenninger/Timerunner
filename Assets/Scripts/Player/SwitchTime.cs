@@ -27,6 +27,7 @@ public class SwitchTime : MonoBehaviour
     }
     void switchToTime()
     {
+        FindObjectOfType<SoundManager>().Play("TimeSwitch");
         presentOrPast = !presentOrPast;
         level_present.SetActive(presentOrPast);
         level_past.SetActive(!presentOrPast);

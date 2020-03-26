@@ -14,11 +14,10 @@ public class CheckpointBehaviour : MonoBehaviour
         renderer = this.GetComponent<SpriteRenderer>();
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    public void ChangeSprite()
     {
-        if (col.tag == "Player" && !isAktivated)
-        {
-            renderer.sprite = checkPointAktivated;
-        }
+        renderer.sprite = checkPointAktivated;
     }
+
+    
 }
