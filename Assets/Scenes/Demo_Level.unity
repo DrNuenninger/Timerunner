@@ -8638,6 +8638,11 @@ PrefabInstance:
       propertyPath: delayBetweenShots
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3320119975262570437, guid: 811eb556a333e994c9eb655970ea9d9c,
+        type: 3}
+      propertyPath: activationRange
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3320119975262570438, guid: 811eb556a333e994c9eb655970ea9d9c,
         type: 3}
       propertyPath: aimSpeed
