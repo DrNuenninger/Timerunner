@@ -6,7 +6,7 @@ public class Game_Save : MonoBehaviour
 {
     public static Game_Save gameSave;
     public int currentLevel;
-    public ArrayList levelList = new ArrayList();
+    public List<Level_Save> levelList = new List<Level_Save>();
     public string levelPath = "";
 
     void Start()
@@ -19,6 +19,7 @@ public class Game_Save : MonoBehaviour
         {
             gameSave = this;
         }
+        loadLevelList();
     }
 
     public void loadLevelList(string levelPath)//loads the set of created levels into the ArrayList; gets called on Start of the Game
