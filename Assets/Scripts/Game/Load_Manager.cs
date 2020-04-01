@@ -7,60 +7,59 @@ using UnityEngine.SceneManagement;
 public class Load_Manager : MonoBehaviour //Loads and manages available Save-Games
 {
     public static Load_Manager load_Manager;
-    public string currentLevel = "Main_Menu";
-    public int currentLevelIndex = 0;
+    private Level_Information LevelInformation;
+    private Dictionary<string, int> sceneList = new Dictionary<string, int>();
+
     void Start()
     {
-        if (load_Manager)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            load_Manager = this;
-        }
-        
+        load_Manager = this;
+        LevelInformation = GameObject.Find("Level_Information").GetComponent<Level_Information>();
+
+        sceneList.Add("Main_Menu", 0);
+        sceneList.Add("Level_Select", 1);
+        sceneList.Add("Town_Level", 2);
+        sceneList.Add("City_Level", 3);
+        sceneList.Add("Factory_Level", 4);
+        sceneList.Add("Demo_Level", 100);
     }
-    public void loadDemo()
-    {
-        SceneManager.LoadScene("Demo_Level", LoadSceneMode.Single);
-    }
+   
     public void escape_Action()
     {
-        SceneManager.LoadScene("Main_Menu", LoadSceneMode.Single);
+        load_mainMenu();
     }
+
     public void exit_Game()
     {
         Application.Quit();
     }
+
     public void load_LevelSelect()
     {
-        Game_Save.gameSave.loadLevelList();
         SceneManager.LoadScene("Level_Select", LoadSceneMode.Single);
     }
-    public void load_Level(string scenename)
-    {
-        if (Game_Save.gameSave.levelList != null)
-        {
-        SceneManager.LoadScene(scenename, LoadSceneMode.Single);
-        Level_Save ls = (Level_Save)Game_Save.gameSave.levelList[0];
-        print(ls.levelname);
-        }
 
-        SceneManager.LoadScene(scenename, LoadSceneMode.Single);
+    public void load_mainMenu()
+    {
+        SceneManager.LoadScene("Main_Menu", LoadSceneMode.Single);
     }
+
+    public void load_Level(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
     public void loadNextLevel()
     {
-        currentLevelIndex++;
-        if (Game_Save.gameSave.levelList[currentLevelIndex] != null)
+        int currentId = sceneList[LevelInformation.sceneName];
+
+        foreach (KeyValuePair<string, int> entry in sceneList)
         {
-            string nextName = Game_Save.gameSave.levelList[currentLevelIndex].levelname;
-            currentLevel = nextName;
-            SceneManager.LoadScene(nextName);
+            if (entry.Value == currentId +1)
+            {
+                load_Level(entry.Key);
+                return;
+            }
         }
-        else
-        {
-            load_LevelSelect();
-        }
+        load_LevelSelect();
     }
 }
