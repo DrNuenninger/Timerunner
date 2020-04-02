@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-        Debug.Log(playedCrouchSlideAudio);
+
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
