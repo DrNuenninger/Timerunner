@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Game_Save))]
 public class Load_Manager : MonoBehaviour //Loads and manages available Save-Games
 {
     public static Load_Manager load_Manager;
