@@ -37,6 +37,11 @@ public class Load_Manager : MonoBehaviour //Loads and manages available Save-Gam
         SceneManager.LoadScene("Level_Select", LoadSceneMode.Single);
     }
 
+    public void load_Leaderboards()
+    {
+        SceneManager.LoadScene("Leaderboards");
+    }
+
     public void load_mainMenu()
     {
         SceneManager.LoadScene("Main_Menu", LoadSceneMode.Single);
