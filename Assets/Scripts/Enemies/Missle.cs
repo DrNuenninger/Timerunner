@@ -35,7 +35,9 @@ public class Missle : MonoBehaviour
         {
             damageableInRadius[0].gameObject.GetComponent<Controller2D>().isDead = true;
             damageableInRadius[0].gameObject.GetComponent<Controller2D>().isSplashed = true;
+            damageableInRadius[0].gameObject.GetComponent<Controller2D>().deathByMissile();
         }
         Destroy(gameObject);
     }
+
 }
