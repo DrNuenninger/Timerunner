@@ -11,15 +11,21 @@ public class AnimationEvents : MonoBehaviour
     //[1 = right | 0 = left]
     public void PlayPlayerStep()
     {
-        if (stepLeft)
+        print("sadas");
+        if (GetComponent<Controller2D>().collissions.below)
         {
-            FindObjectOfType<SoundManager>().Play("PlayerStepLeft");
-        }
-        else
-        {
-            FindObjectOfType<SoundManager>().Play("PlayerStepRight");
+            if (stepLeft)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerStepLeft");
+            }
+            else
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerStepRight");
+            }
+
+            stepLeft = (stepLeft) ? false : true;
         }
 
-        stepLeft = (stepLeft) ? false : true;
+        
     }
 }
