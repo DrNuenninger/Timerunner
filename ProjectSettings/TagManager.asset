@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - BarbedWire
   - Orb
+  - Ground
   layers:
   - Default
   - TransparentFX
