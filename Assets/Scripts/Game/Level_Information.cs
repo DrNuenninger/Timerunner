@@ -37,7 +37,7 @@ public class Level_Information : MonoBehaviour
             if (orb.gameObject.GetComponent<Orb>().GetIndex() == index)
             {
                 orbsCollected++;
-                print("Collecting Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
+                //print("Collecting Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
                 orb.gameObject.GetComponent<Orb>().isCollected = true;
                 orb.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 orb.gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -51,7 +51,7 @@ public class Level_Information : MonoBehaviour
         {
             if(orb.gameObject.GetComponent<Orb>().isCollected && !orb.gameObject.GetComponent<Orb>().isSaved)
             {
-                print("Saving Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
+                //print("Saving Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
                 orb.gameObject.GetComponent<Orb>().isSaved = true;
                 orbsCollectedSaved++;
             }
@@ -66,7 +66,7 @@ public class Level_Information : MonoBehaviour
         {
             if (orb.gameObject.GetComponent<Orb>().isCollected && !orb.gameObject.GetComponent<Orb>().isSaved)
             {
-                print("Aktivateing Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
+                //print("Aktivateing Orb: " + orb.gameObject.GetComponent<Orb>().GetIndex());
                 orb.gameObject.GetComponent<BoxCollider2D>().enabled = true;
                 orb.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 orb.gameObject.GetComponent<Orb>().isCollected = false;
@@ -80,9 +80,5 @@ public class Level_Information : MonoBehaviour
 
         }
     }
-
-    void Update()
-    {
-        print("Collected: " + orbsCollected + " Saved: " + orbsCollectedSaved);
-    }
+   
 }
