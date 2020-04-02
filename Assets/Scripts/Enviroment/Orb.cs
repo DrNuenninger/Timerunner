@@ -16,6 +16,7 @@ public class Orb : MonoBehaviour
     public void Collect()
     {
         transform.parent.gameObject.GetComponent<Level_Information>().CollectOrb(index);
+        FindObjectOfType<SoundManager>().Play("OrbCollect");
     }
 
     public void SetIndex(int index)

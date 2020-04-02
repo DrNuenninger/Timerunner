@@ -24,7 +24,11 @@ public class Missle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Explode();
+        if(collision.tag == "Player" || collision.tag == "Ground")
+        {
+            Explode();
+        }
+        
     }
 
     private void Explode()
