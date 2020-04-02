@@ -1812,6 +1812,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3000621394358064807, guid: fd1123a0b727e0a48b1ad732303df3e9,
+        type: 3}
+      propertyPath: sceneName
+      value: Military_Base
+      objectReference: {fileID: 0}
     - target: {fileID: 8536625798488301469, guid: fd1123a0b727e0a48b1ad732303df3e9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6840,7 +6845,7 @@ PrefabInstance:
     - target: {fileID: 2091683300476690750, guid: c987416440eb9164f81d371be859c95b,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2091683300476690750, guid: c987416440eb9164f81d371be859c95b,
         type: 3}
