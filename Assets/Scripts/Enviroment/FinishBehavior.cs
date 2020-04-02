@@ -15,7 +15,7 @@ public class FinishBehavior : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            loadManagerController.load_LevelSelect();
+            loadManagerController.loadNextLevel(); 
         }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.Analytics;
+using System.Collections.Generic;
 
 
 public class Controller2D : RayCastController
@@ -30,7 +32,8 @@ public class Controller2D : RayCastController
     Vector3 oldColliderOffset;
 
     public override void Start()
-    {        
+    {
+        print("Killme");
         base.Start();
         crouchHeight = collider.size.y / 2;
         oldColliderSize = collider.size;
@@ -38,6 +41,16 @@ public class Controller2D : RayCastController
         collissions.faceDirection = 1;
         spriteManager = this.GetComponent<SpriteManager>();
         player = this.GetComponent<Player>();
+    }
+
+    public void deathByMissile()
+    {
+        sendDeathAnalytics("Missile");
+    }
+
+    public void deathByMine()
+    {
+        sendDeathAnalytics("Mine");
     }
 
     void ResetFallingThroughPlatform()
@@ -154,6 +167,21 @@ public class Controller2D : RayCastController
         return true;
     }
 
+    void sendDeathAnalytics(string variant)
+    {
+        float posx = this.transform.position.x;
+        float posy = this.transform.position.y;
+        string reason = variant;
+        UnityEngine.Analytics.Analytics.CustomEvent("player_death", new Dictionary<string, object>
+        {
+            {"PosX", posx },
+            {"PosY", posy },
+            {"Reason", reason },
+            {"Level", SceneManager.GetActiveScene().name }
+
+        });
+    }
+
     //Behandelt horiziontale Bewegung
     void HorizontalCollisions(ref Vector3 velocity)
     {
@@ -195,6 +223,7 @@ public class Controller2D : RayCastController
                                 //Player is Squashed
                                 print("Kill Player");
                                 isDead = true;
+                                sendDeathAnalytics("Crushed");
                                 isSplashed = true;
                                 break;                                
                             }
