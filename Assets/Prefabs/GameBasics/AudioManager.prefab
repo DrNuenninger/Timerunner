@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: PlayerStep
+  - name: PlayerStepRight
     clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
     volume: 1
     pitch: 1.663
@@ -84,6 +84,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: fcc92be6e5dad2549af1a513afb9efee, type: 3}
     volume: 1
     pitch: 1.523
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerStepLeft
+    clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
+    volume: 1
+    pitch: 1.22
     source: {fileID: 0}
     loop: 0
   - name: OrbCollect
