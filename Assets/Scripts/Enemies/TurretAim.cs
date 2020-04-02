@@ -34,6 +34,8 @@ public class TurretAim : MonoBehaviour
 
     void Update()
     {
+        if (!isActive) return;
+    
         angle = Vector2.Angle(barrelDirection, rotationAnchorpoint.position - player.position);
         float direction = Vector3.Cross(barrelDirection, rotationAnchorpoint.position - player.position).normalized.z;
         angle = angle * direction;

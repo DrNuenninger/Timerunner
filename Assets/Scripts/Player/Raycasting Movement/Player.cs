@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     public float maxCrouchSlideTime = 1f;
    
     public bool initPossibleCrouchSlide;
-
+    private Level_Information information;
     
 
 
@@ -85,12 +85,17 @@ public class Player : MonoBehaviour
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+
+        information = GameObject.Find("Level_Information").GetComponent<Level_Information>();
+        if (information == null) Debug.LogError("Lever_Information not set!");
+
         print("Gravity: " + gravity + " JumpVelocity: " + maxJumpVelocity);
         
     }
 
     void Respawn()
     {
+        information.LoadPersistenceOnRespawn();
         velocityXSmoothing = new float();
         velocity.x = 0f;
         velocity.y = 0f;

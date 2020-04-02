@@ -7,6 +7,8 @@ TagManager:
   - Killzone
   - PassablePlatform
   - Checkpoint
+  - BarbedWire
+  - Orb
   layers:
   - Default
   - TransparentFX

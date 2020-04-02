@@ -31,18 +31,15 @@ public class TurretBehaviour : MonoBehaviour
         {
             turretAim.isActive = false;
         }
-        if (DelayToPass <= 0)
+
+        DelayToPass = DelayToPass - Time.deltaTime;
+        if (DelayToPass <= 0 && distance <= activationRange)
         {   
             if (turretAim.angleToPlayer <= shootingMargin)
             {
                 Instantiate(missle, shootingPosition.position, shootingPosition.rotation);
                 DelayToPass = delayBetweenShots;
             }
-        }
-        else
-        {
-            DelayToPass = DelayToPass - Time.deltaTime;
-        }
-        
+        }  
     }
 }
