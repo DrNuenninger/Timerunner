@@ -16,7 +16,6 @@ public class KillPlayerOnImpact : MonoBehaviour
         if (col.tag == "Player")
         {
             if (this.tag == "BarbedWire") {
-                print("ParbedWire");
                 controller2DPlayer.isSplashed = true; }
             controller2DPlayer.isDead = true;
         }

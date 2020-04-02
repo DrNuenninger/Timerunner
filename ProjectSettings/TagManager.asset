@@ -8,6 +8,7 @@ TagManager:
   - PassablePlatform
   - Checkpoint
   - BarbedWire
+  - Orb
   layers:
   - Default
   - TransparentFX

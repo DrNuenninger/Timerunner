@@ -9,7 +9,11 @@ public class Landmine : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Explode();
+        if (collision.tag == "Player")
+        {
+            Explode();
+        }
+        
     }
 
     private void Explode()
