@@ -176,7 +176,7 @@ public class Controller2D : RayCastController
             {"PosX", posx },
             {"PosY", posy },
             {"Reason", reason },
-            {"Level", SceneManagement.Scene.name }
+            {"Level", SceneManager.GetActiveScene().name }
 
         });
     }
