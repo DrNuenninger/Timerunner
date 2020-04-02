@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     public float maxCrouchSlideTime = 1f;
    
     public bool initPossibleCrouchSlide;
+    public bool playedCrouchSlideAudio = false;
     private Level_Information information;
     
 
@@ -182,7 +183,7 @@ public class Player : MonoBehaviour
         {
             initPossibleCrouchSlide = false;
         }
-        //print(extraCrouchSlideSpeed);
+        Debug.Log(playedCrouchSlideAudio);
         if (controller.wasCrouchedLastFrame /* && controller.collissions.below*/ && !controller.collissions.left && !controller.collissions.right)
         {
             //If Player pressed Ctrl AND is moving faster than crouchspeed => Start sliding
@@ -193,6 +194,12 @@ public class Player : MonoBehaviour
             {
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
+                print(playedCrouchSlideAudio);
+                if (!playedCrouchSlideAudio)
+                {
+                    FindObjectOfType<SoundManager>().Play("PlayerCrouchSlide");
+                    playedCrouchSlideAudio = true;
+                }
                 
                 localCrouchSpeedMultiplier = 1f;
                 if (!controller.collissions.below)
@@ -222,6 +229,7 @@ public class Player : MonoBehaviour
             else
             {
                 isCrouchSliding = false;
+                playedCrouchSlideAudio = false;
             }
 
             if (crouchSlideSlowdown)
@@ -231,6 +239,7 @@ public class Player : MonoBehaviour
                 localCrouchSpeedMultiplier = 0.6f;
                 crouchSlideSlowdown = false;
                 isCrouchSliding = false;
+                playedCrouchSlideAudio = false;
             }
 
         }
@@ -238,6 +247,7 @@ public class Player : MonoBehaviour
         {
             slideTimer = 0f;
             isCrouchSliding = false;
+            playedCrouchSlideAudio = false;
             localCrouchSpeedMultiplier = 1f;
             extraCrouchSlideSpeed = 0f;
         }

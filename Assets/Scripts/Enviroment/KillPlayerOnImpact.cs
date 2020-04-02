@@ -20,4 +20,6 @@ public class KillPlayerOnImpact : MonoBehaviour
             controller2DPlayer.isDead = true;
         }
     }
+
+   
 }

@@ -88,13 +88,19 @@ MonoBehaviour:
     loop: 0
   - name: PlayerStepLeft
     clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1.22
     source: {fileID: 0}
     loop: 0
   - name: OrbCollect
     clip: {fileID: 8300000, guid: 6a59b7f0cb6a3c34d926cd283aa32b31, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1.523
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerCrouchSlide
+    clip: {fileID: 8300000, guid: b940b662eb2b87c4dab6439f858d5e7b, type: 3}
+    volume: 1
+    pitch: 1
     source: {fileID: 0}
     loop: 0
