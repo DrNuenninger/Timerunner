@@ -36,15 +36,38 @@ public class AnimationScript : StateMachineBehaviour
     private bool stepLeft = true;
     public void PlayPlayerStep()
     {
-        if (stepLeft)
+       
+        if (FindObjectOfType<Player>().GetComponent<Controller2D>().collissions.below)
         {
-            FindObjectOfType<SoundManager>().Play("PlayerStepLeft");
-        }
-        else
-        {
-            FindObjectOfType<SoundManager>().Play("PlayerStepRight");
-        }
+            if (stepLeft)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerStepLeft");
+            }
+            else
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerStepRight");
+            }
 
-        stepLeft = (stepLeft) ? false : true;
+            stepLeft = (stepLeft) ? false : true;
+        }
+    }
+
+    public void PlayPlayerCrouchStep()
+    {
+        Debug.Log(FindObjectOfType<Player>().GetComponent<Controller2D>().collissions.below);
+
+        if (FindObjectOfType<Player>().GetComponent<Controller2D>().collissions.below)
+        {
+            if (stepLeft)
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerCrouchStepLeft");
+            }
+            else
+            {
+                FindObjectOfType<SoundManager>().Play("PlayerCrouchStepRight");
+            }
+
+            stepLeft = (stepLeft) ? false : true;
+        }
     }
 }

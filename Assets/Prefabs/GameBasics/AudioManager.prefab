@@ -104,3 +104,15 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: PlayerCrouchStepLeft
+    clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
+    volume: 1
+    pitch: 0.3
+    source: {fileID: 0}
+    loop: 0
+  - name: PlayerCrouchStepRight
+    clip: {fileID: 8300000, guid: 135bf2d1aecdabd449f7e6bc80d405c9, type: 3}
+    volume: 1
+    pitch: 0.7
+    source: {fileID: 0}
+    loop: 0

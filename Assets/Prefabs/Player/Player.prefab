@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 7799923939259075922}
   - component: {fileID: 7799923938788242805}
   - component: {fileID: 4640934949521639491}
-  - component: {fileID: 6242717526849185217}
   - component: {fileID: 4640934949521639490}
+  - component: {fileID: -4048286732697547246}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -174,6 +174,7 @@ MonoBehaviour:
   crouchSlideSlowdownTime: 0.5
   maxCrouchSlideTime: 0.5
   initPossibleCrouchSlide: 0
+  playedCrouchSlideAudio: 0
   wallSlideSpeedMax: 3
   wallJumpClimb: {x: 7.5, y: 16}
   wallJumpOff: {x: 8.5, y: 7}
@@ -217,18 +218,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6242717526849185217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7799923939259075921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 407211b1101b6a04f8cbbff69c21901b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4640934949521639490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,3 +231,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalSpawnPoint: {fileID: 0}
+--- !u!114 &-4048286732697547246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799923939259075921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88ea310195976442a1ea057cfb3e070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

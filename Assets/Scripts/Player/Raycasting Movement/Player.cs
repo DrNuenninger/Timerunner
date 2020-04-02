@@ -194,10 +194,11 @@ public class Player : MonoBehaviour
             {
                 slideTimer += Time.deltaTime;
                 isCrouchSliding = true;
-                print(playedCrouchSlideAudio);
+                //print(playedCrouchSlideAudio);
                 if (!playedCrouchSlideAudio)
                 {
-                    FindObjectOfType<SoundManager>().Play("PlayerCrouchSlide");
+                    //Need to find better sound
+                    //FindObjectOfType<SoundManager>().Play("PlayerCrouchSlide");
                     playedCrouchSlideAudio = true;
                 }
                 
