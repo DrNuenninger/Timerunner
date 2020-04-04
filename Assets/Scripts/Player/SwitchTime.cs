@@ -13,8 +13,8 @@ public class SwitchTime : MonoBehaviour
     GameObject level_present;
     void Start()
     {
-        level_past = gameObject.transform.GetChild(0).gameObject;
-        level_present = gameObject.transform.GetChild(1).gameObject;
+        level_past = gameObject.transform.Find("Level_Past").gameObject;
+        level_present = gameObject.transform.Find("Level_Present").gameObject;
         level_past.SetActive(!presentOrPast);
         level_present.SetActive(presentOrPast);
     }
