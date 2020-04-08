@@ -34,7 +34,7 @@ public class Controller2D : RayCastController
 
     public override void Start()
     {
-        print("Killme");
+        
         base.Start();
         crouchHeight = collider.size.y / 2;
         oldColliderSize = collider.size;

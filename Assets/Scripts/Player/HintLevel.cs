@@ -30,7 +30,7 @@ public class HintLevel : MonoBehaviour
     private void hintLevel()
     {
         hintInProgress = true;
-        presentOrPast = switchTime.presentOrPast;
+        presentOrPast = switchTime.switchingToPresent;
         fadeOutFactor = 0;
         if (presentOrPast)
         {
