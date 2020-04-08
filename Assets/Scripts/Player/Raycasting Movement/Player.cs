@@ -113,7 +113,6 @@ public class Player : MonoBehaviour
  
     void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.J))
         {
             controller.isDead = true;
@@ -321,7 +320,7 @@ public class Player : MonoBehaviour
         //Überprüft ob die Bedingungen für einen Wallslide vorhanden sind
 
         if ((controller.collissions.left || controller.collissions.right) && !controller.collissions.below &&
-            velocity.y < 0)
+            velocity.y < 0 && !controller.isLevelBoundry)
         {
             wallSliding = true;
             

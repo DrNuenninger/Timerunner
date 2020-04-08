@@ -10,6 +10,7 @@ TagManager:
   - BarbedWire
   - Orb
   - Ground
+  - lvlBoundry
   layers:
   - Default
   - TransparentFX

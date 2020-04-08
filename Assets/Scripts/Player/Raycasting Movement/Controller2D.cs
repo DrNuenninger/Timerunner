@@ -18,6 +18,7 @@ public class Controller2D : RayCastController
     private bool playerAbleToStandUp = false;
     public bool isDead = false;
     public bool isSplashed = false;
+    public bool isLevelBoundry = false;
     private Player player;
 
 
@@ -205,6 +206,15 @@ public class Controller2D : RayCastController
 
             if (hit)
             {
+                if(hit.collider.tag == "lvlBoundry")
+                {
+                    isLevelBoundry = true;
+                }
+                else
+                {
+                    isLevelBoundry = false;
+                }
+
                 if (hit.distance == 0 && hit.collider.tag != "PassablePlatform")
                 {
                     for (int e = 0; e < horizontalRayCount; e++)
@@ -279,6 +289,10 @@ public class Controller2D : RayCastController
                     collissions.left = directionX == -1;
                     collissions.right = directionX == 1;
                 }
+            }
+            else
+            {
+                isLevelBoundry = false;
             }
         }
     }
