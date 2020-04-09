@@ -1,39 +1,53 @@
 ﻿using UnityEngine;
 
-public class GoombaAi : RayCastController
+public class goombaAi : RayCastController
 {
     public float speed = 0;
-    bool movingRight = true;
+    private bool movingRight = true;
+    private Vector3 velocity = Vector3.zero;
 
+    public override void Start()
+    {
 
-  
+        base.Start();
+        velocity.x = speed;
+    }
+
     void Update()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        
+        //transform.Translate(Vector2.right * speed * Time.deltaTime);
         UpdateRayCastOrigins();
-        for (int i = 0; i < verticalRayCount; i++)
-        {
-            Vector2 rayOrigin = rayCastOrigins.bottomLeft;
-            rayOrigin += Vector2.right * (verticalRaySpacing * i);
+        //CalculateRaySpacing();
+        
+            Vector2 rayOrigin = (movingRight)? rayCastOrigins.bottomRight : rayCastOrigins.bottomLeft;
+            //rayOrigin += Vector2.right *velocity.x;
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, 2f, collissionMask);
+
             Debug.DrawRay(rayOrigin, Vector2.down, Color.red);
 
             if (!hit)
             {
                 if (movingRight)
                 {
-                    transform.eulerAngles = new Vector3(0, -180, 0);
+                    
+
+                    velocity.x = -speed;
                     movingRight = false;
                 }
                 else
                 {
-                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    velocity.x = speed;
                     movingRight = true;
                 }
-                break;
-            }
+                Vector3 theScale = transform.localScale;
+                theScale.x *= -1;
+                transform.localScale = theScale;
+            }           
        
-        }
         
+        print(movingRight);
+        transform.Translate(velocity * Time.deltaTime);
+
     }
 }

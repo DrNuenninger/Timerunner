@@ -60,9 +60,20 @@ public class RayCastController : MonoBehaviour
         
         
         rayCastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
+        Debug.DrawRay(rayCastOrigins.topLeft, Vector2.left, Color.blue);
+        Debug.DrawRay(rayCastOrigins.topLeft, Vector2.up, Color.blue);
+
         rayCastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
+        Debug.DrawRay(rayCastOrigins.topRight, Vector2.right, Color.blue);
+        Debug.DrawRay(rayCastOrigins.topRight, Vector2.up, Color.blue);
+
         rayCastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
+        Debug.DrawRay(rayCastOrigins.bottomLeft, Vector2.left, Color.blue);
+        Debug.DrawRay(rayCastOrigins.bottomLeft, Vector2.down, Color.blue);
+
         rayCastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
+        Debug.DrawRay(rayCastOrigins.bottomRight, Vector2.right, Color.blue);
+        Debug.DrawRay(rayCastOrigins.bottomRight, Vector2.down, Color.blue);
 
         squashingRayCastOrigins.topLeft = new Vector2(bounds.min.x + bounds.size.x/3, bounds.max.y - bounds.size.y/4);
         squashingRayCastOrigins.topRight = new Vector2(bounds.max.x - bounds.size.x / 3, bounds.max.y - bounds.size.y / 4);

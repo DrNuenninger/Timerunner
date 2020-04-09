@@ -1,0 +1,247 @@
+fileFormatVersion: 2
+guid: da3f2044c972eeb408986d911fd48f7a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4885781436308181085
+    second: Mutant_Spider_seperated_0
+  - first:
+      213: 8118985262464950234
+    second: Mutant_Spider_seperated_1
+  - first:
+      213: -739217019601739906
+    second: Mutant_Spider_seperated_2
+  - first:
+      213: -7996508944781833387
+    second: Mutant_Spider_seperated_3
+  - first:
+      213: 6428675069163189827
+    second: Mutant_Spider_seperated_4
+  - first:
+      213: 519514172648251784
+    second: Mutant_Spider_seperated_5
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_0
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 107
+        width: 28
+        height: 27
+      alignment: 9
+      pivot: {x: 0.6548993, y: 0.2246235}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d50d8519458cdc340800000000000000
+      internalID: 4885781436308181085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 122
+        width: 43
+        height: 26
+      alignment: 9
+      pivot: {x: 0.10734806, y: 0.10083624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adfdad9741e6ca070800000000000000
+      internalID: 8118985262464950234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_2
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 86
+        width: 31
+        height: 67
+      alignment: 9
+      pivot: {x: 0.12524365, y: 0.9346432}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7f17b68906cdb5f0800000000000000
+      internalID: -739217019601739906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_3
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 52
+        width: 93
+        height: 50
+      alignment: 9
+      pivot: {x: 0.76149684, y: 0.57125384}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55b8b076b71b60190800000000000000
+      internalID: -7996508944781833387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_4
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 27
+        width: 52
+        height: 32
+      alignment: 9
+      pivot: {x: 0.077005535, y: 0.12243283}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 346b1e13aed373950800000000000000
+      internalID: 6428675069163189827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mutant_Spider_seperated_5
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 2
+        width: 35
+        height: 64
+      alignment: 9
+      pivot: {x: 0.19905265, y: 0.87756735}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 881ea74336fa53700800000000000000
+      internalID: 519514172648251784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
