@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GoombaAi : RayCastController
+public class goombaAi : RayCastController
 {
     public float speed = 0;
     bool movingRight = true;
