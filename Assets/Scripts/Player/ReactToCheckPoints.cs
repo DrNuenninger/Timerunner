@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 
 public class ReactToCheckPoints : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class ReactToCheckPoints : MonoBehaviour
     private Transform currentSpawnPoint;
     private CheckpointBehaviour checkpointBehaviour;
     private Level_Information information;
+    private StartGame timer;
 
     void Start()
     {
@@ -41,5 +44,20 @@ public class ReactToCheckPoints : MonoBehaviour
     public Transform GetCurrentSpawnpoint()
     {
         return currentSpawnPoint;
+    }
+
+    void sendCheckpointTime()
+    {
+        timer = GameObject.Find("Camera").GetComponent<StartGame>();
+        float posx = this.transform.position.x;
+        float posy = this.transform.position.y;
+        UnityEngine.Analytics.Analytics.CustomEvent("checkPointReached", new Dictionary<string, object>
+        {
+            {"PosX", posx },
+            {"PosY", posy },
+            {"Time", timer.timeGone },
+            {"Level", SceneManager.GetActiveScene().name }
+
+        });
     }
 }
