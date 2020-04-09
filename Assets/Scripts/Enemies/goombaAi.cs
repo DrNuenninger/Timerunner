@@ -30,6 +30,8 @@ public class goombaAi : RayCastController
             {
                 if (movingRight)
                 {
+                    
+
                     velocity.x = -speed;
                     movingRight = false;
                 }
@@ -37,7 +39,10 @@ public class goombaAi : RayCastController
                 {
                     velocity.x = speed;
                     movingRight = true;
-                }                
+                }
+                Vector3 theScale = transform.localScale;
+                theScale.x *= -1;
+                transform.localScale = theScale;
             }           
        
         
