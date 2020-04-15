@@ -11,6 +11,7 @@ public class SwitchTime : MonoBehaviour
     public bool startInPast = false;
     //Bools sollten nicht entweder oder fragen sein!!!
     public bool switchingToPresent;
+    public bool timeSwitchPossible = true;
     GameObject level_past;
     GameObject level_present;
     void Start()
@@ -52,7 +53,7 @@ public class SwitchTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && timeSwitchPossible)
         {
             SwitchToTime();
         }

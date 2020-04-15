@@ -2,6 +2,7 @@
 
 public class HintLevel : MonoBehaviour
 {
+    public bool hintLevelPossible;
     GameObject hintablePast;
     GameObject hintablePresent;
     SwitchTime switchTime;
@@ -18,7 +19,7 @@ public class HintLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !hintInProgress)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !hintInProgress && hintLevelPossible)
         {   
             hintLevel();
         } else if (hintInProgress)
