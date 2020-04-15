@@ -15,14 +15,24 @@ public class Load_Manager : MonoBehaviour //Loads and manages available Save-Gam
         LevelInformation = GameObject.Find("Level_Information").GetComponent<Level_Information>();
 
         sceneList.Add("Main_Menu", 0);
-        sceneList.Add("Level_Select", 1);
-        sceneList.Add("Forest", 2);
-        sceneList.Add("City", 3);
-        sceneList.Add("Military-Base", 4);
+        sceneList.Add("Leaderboards", 1);
+        sceneList.Add("Level_Select", 2);
+        sceneList.Add("Forest", 3);
+        sceneList.Add("City", 4);
+        sceneList.Add("Military-Base", 5);
         sceneList.Add("Demo_Level", 100);
     }
-   
-    public void escape_Action()
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            escape_Action();
+        }
+    }
+    
+
+public void escape_Action()
     {
         load_mainMenu();
     }

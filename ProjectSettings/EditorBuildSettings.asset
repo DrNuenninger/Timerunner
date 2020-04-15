@@ -15,13 +15,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Level_Select.unity
     guid: e57fb8e5c1b8dc747b4ef20cedc79c11
   - enabled: 1
-    path: Assets/Scenes/Military_Base.unity
+    path: Assets/Scenes/Military-Base.unity
     guid: 29d7f1c9fa10af84e9a6b33b158e9ce1
   - enabled: 1
-    path: Assets/Scenes/Town_Level.unity
+    path: Assets/Scenes/Forest.unity
     guid: 57ba9a02178f3eb43b12034bce3ce5c0
   - enabled: 1
-    path: Assets/Scenes/City_Level.unity
+    path: Assets/Scenes/City.unity
     guid: 6d1efb34f8a5ba7428625dc8b2d014f5
   - enabled: 1
     path: Assets/Scenes/Leaderboards.unity
