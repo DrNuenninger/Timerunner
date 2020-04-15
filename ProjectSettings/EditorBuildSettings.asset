@@ -8,19 +8,22 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Main_Menu.unity
     guid: 45417f284d96fe7419d71d0d3e1cfaf7
-  - enabled: 0
-    path: Assets/Scenes/RaycastingMovement_devRoom.unity
-    guid: 3f45bc4f559a46e49889cb1ef896e585
-  - enabled: 0
-    path: Assets/Scenes/Demo_Level.unity
-    guid: aa7adbc16c399ae4a82d3beb53889fe1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level_Select.unity
     guid: e57fb8e5c1b8dc747b4ef20cedc79c11
   - enabled: 1
     path: Assets/Scenes/Military_Base.unity
     guid: 29d7f1c9fa10af84e9a6b33b158e9ce1
+  - enabled: 1
+    path: Assets/Scenes/Town_Level.unity
+    guid: 57ba9a02178f3eb43b12034bce3ce5c0
+  - enabled: 1
+    path: Assets/Scenes/City_Level.unity
+    guid: 6d1efb34f8a5ba7428625dc8b2d014f5
+  - enabled: 1
+    path: Assets/Scenes/Leaderboards.unity
+    guid: 1790e2c1f9dadd246afdff12cf7a1295
   m_configObjects: {}
