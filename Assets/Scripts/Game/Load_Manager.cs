@@ -16,9 +16,9 @@ public class Load_Manager : MonoBehaviour //Loads and manages available Save-Gam
 
         sceneList.Add("Main_Menu", 0);
         sceneList.Add("Level_Select", 1);
-        sceneList.Add("Town_Level", 2);
-        sceneList.Add("City_Level", 3);
-        sceneList.Add("Military_Base", 4);
+        sceneList.Add("Forest", 2);
+        sceneList.Add("City", 3);
+        sceneList.Add("Military-Base", 4);
         sceneList.Add("Demo_Level", 100);
     }
    
