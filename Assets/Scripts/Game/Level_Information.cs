@@ -106,11 +106,8 @@ public class Level_Information : MonoBehaviour
 
     public void LoadPersistenceOnRespawn()
     {
-        print("Init Reload");
         LoadMovingPlatformPersistence();
-        print("Platforms reloaded");
         LoadOrbPersistence();
-        print("Orbs Reloaded");
     }
    
 }
