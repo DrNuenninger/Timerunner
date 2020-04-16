@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
     void Respawn()
     {
-        information.LoadPersistenceOnRespawn();
+        
         velocityXSmoothing = new float();
         velocity.x = 0f;
         velocity.y = 0f;
@@ -109,6 +109,7 @@ public class Player : MonoBehaviour
         controller.isSplashed = false;
         bloodIsSpawned = false;
         deathSoundIsPlayed = false;
+        information.LoadPersistenceOnRespawn();
     }
  
     void Update()
@@ -147,9 +148,10 @@ public class Player : MonoBehaviour
             animator.SetBool("isSplashed", controller.isSplashed);
             lockMovement = false;
         }
-
+        
         if (lockMovement)
         {
+            //print("Locked");
             if (!controller.isSplashed)
             {
                 controller.Move(Vector3.down * 5 * Time.deltaTime);
@@ -160,6 +162,10 @@ public class Player : MonoBehaviour
                 Respawn();
             }
             return;
+        }
+        else
+        {
+            //print("Not locked");
         }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));

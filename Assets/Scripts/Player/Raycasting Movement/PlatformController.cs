@@ -49,6 +49,22 @@ public class PlatformController : RayCastController
         return Mathf.Pow(x,a) / (Mathf.Pow(x,a) + Mathf.Pow(1-x,a));
     }
 
+    public void ResetOnRespawn()
+    {
+        if(globalWaypoints.Length < 1)
+        {
+            Debug.LogWarning("Moving Platform Waypoint Array is empty. Add Waypoints or replace by normal Platform");
+        }
+        else
+        {
+            fromWaypointIndex = 0;
+            percentBetweenWaypoints = 0f;
+            nextMoveTime = 0f;
+            transform.position = globalWaypoints[0];
+        }
+        
+    }
+
     Vector3 CalculatePlatformMovement()
     {
         if (Time.time < nextMoveTime)
@@ -57,9 +73,10 @@ public class PlatformController : RayCastController
         }
 
         fromWaypointIndex %= globalWaypoints.Length;
+        //print("From Waypoint Index: "  + fromWaypointIndex);
         int toWaypointIndex = (fromWaypointIndex + 1)%globalWaypoints.Length;
-        float distanceBetweenWaypoints =
-            Vector3.Distance(globalWaypoints[fromWaypointIndex], globalWaypoints[toWaypointIndex]);
+        float distanceBetweenWaypoints = Vector3.Distance(globalWaypoints[fromWaypointIndex], globalWaypoints[toWaypointIndex]);
+
         percentBetweenWaypoints += Time.deltaTime * speed/distanceBetweenWaypoints;
         percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
         float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
@@ -99,6 +116,11 @@ public class PlatformController : RayCastController
     // Update is called once per frame
     void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    ResetOnRespawn();
+        //}
+
         UpdateRayCastOrigins();
         Vector3 velocity = CalculatePlatformMovement();
         CalculatePassengerMovement(velocity);

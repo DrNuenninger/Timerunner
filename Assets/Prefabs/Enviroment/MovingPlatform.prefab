@@ -20,10 +20,16 @@ MonoBehaviour:
   collider: {fileID: 612484695581722920}
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
-  move: {x: 0, y: 0, z: 0}
+  squashingHorizontalRaySpacing: 0
+  squashingVerticalRaySpacing: 0
   passengerMask:
     serializedVersion: 2
     m_Bits: 512
+  localWaypoints: []
+  speed: 0
+  cyclic: 0
+  easeAmount: 1
+  waitTime: 0
 --- !u!1001 &1411544219475077142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,6 +110,11 @@ PrefabInstance:
     - target: {fileID: 2011196333302636863, guid: f5935dab9c0fe4c4bbee2200393a409b,
         type: 3}
       propertyPath: m_Name
+      value: MovingPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011196333302636863, guid: f5935dab9c0fe4c4bbee2200393a409b,
+        type: 3}
+      propertyPath: m_TagString
       value: MovingPlatform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
