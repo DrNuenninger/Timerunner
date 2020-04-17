@@ -11,6 +11,9 @@ TagManager:
   - Orb
   - Ground
   - lvlBoundry
+  - Information
+  - MovingPlatform
+  - LevelOrigin
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,9 @@ public class Level_Information : MonoBehaviour
 {
     public string sceneName;
     private List<Transform> orbs;
+    //private List<Transform> movingPlatforms;
+    private GameObject[] movingPlatforms;
+    private GameObject level;
 
     private int orbAmount = 0;
     private int orbsCollected = 0;
@@ -13,6 +16,18 @@ public class Level_Information : MonoBehaviour
 
     void Start()
     {
+        //level = GameObject.FindGameObjectWithTag("LevelOrigin");
+        //print(level.name);
+        //foreach(Transform child in level.transform)
+        //{
+        //    if(child.tag == "MovingPlatform")
+        //    {
+        //        print("Added Child: " + child.name);
+        //        movingPlatforms.Add(child);
+        //    }
+        //}
+
+        movingPlatforms = GameObject.FindGameObjectsWithTag("MovingPlatform");
 
         orbs = new List<Transform>();
 
@@ -59,8 +74,8 @@ public class Level_Information : MonoBehaviour
         }
     }
 
-    public void LoadPersistenceOnRespawn()
-    {        
+    private void LoadOrbPersistence()
+    {
         orbsCollected = 0;
         foreach (Transform orb in orbs)
         {
@@ -70,15 +85,29 @@ public class Level_Information : MonoBehaviour
                 orb.gameObject.GetComponent<BoxCollider2D>().enabled = true;
                 orb.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 orb.gameObject.GetComponent<Orb>().isCollected = false;
-                
+
             }
 
             if (orb.gameObject.GetComponent<Orb>().isCollected && orb.gameObject.GetComponent<Orb>().isSaved)
-            {                
+            {
                 orbsCollected++;
             }
 
         }
+    }
+
+    private void LoadMovingPlatformPersistence()
+    {
+        foreach(GameObject platform in movingPlatforms)
+        {
+            platform.GetComponent<PlatformController>().ResetOnRespawn();
+        }
+    }
+
+    public void LoadPersistenceOnRespawn()
+    {
+        LoadMovingPlatformPersistence();
+        LoadOrbPersistence();
     }
    
 }

@@ -11,7 +11,6 @@ public class AnimationEvents : MonoBehaviour
     //[1 = right | 0 = left]
     public void PlayPlayerStep()
     {
-        print("sadas");
         if (GetComponent<Controller2D>().collissions.below)
         {
             if (stepLeft)

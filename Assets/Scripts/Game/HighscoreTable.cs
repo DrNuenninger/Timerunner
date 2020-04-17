@@ -31,6 +31,8 @@ public class HighscoreTable : MonoBehaviour {
         }
 
         highscoreEntryTransformList = new List<Transform>();
+        highscores.highscoreEntryList.RemoveRange(12, highscores.highscoreEntryList.Count - 12);
+
         foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList) {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
