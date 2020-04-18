@@ -22,7 +22,7 @@ public class goombaAi : RayCastController
 
     private void CheckVerticalCollision() {
         Vector2 rayOrigin = (movingRight) ? rayCastOrigins.bottomRight : rayCastOrigins.bottomLeft;
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, 2f, collissionMask);
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, 0.5f, collissionMask);
 
         Debug.DrawRay(rayOrigin, Vector2.down, Color.red);
 
