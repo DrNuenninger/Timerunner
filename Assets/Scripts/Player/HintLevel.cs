@@ -2,7 +2,7 @@
 
 public class HintLevel : MonoBehaviour
 {
-    public bool hintLevelPossible;
+    public bool hintLevelPossible = true;
     GameObject hintablePast;
     GameObject hintablePresent;
     SwitchTime switchTime;
