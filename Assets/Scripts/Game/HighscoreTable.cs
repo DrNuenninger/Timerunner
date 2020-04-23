@@ -14,9 +14,13 @@ public class HighscoreTable : MonoBehaviour {
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
         entryTemplate.gameObject.SetActive(false);
-
+        
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        if (highscores == null)
+        {
+            return;
+        }
 
         // Sort entry list by Time
         for (int i = 0; i < highscores.highscoreEntryList.Count; i++) {
@@ -31,7 +35,11 @@ public class HighscoreTable : MonoBehaviour {
         }
 
         highscoreEntryTransformList = new List<Transform>();
-        highscores.highscoreEntryList.RemoveRange(12, highscores.highscoreEntryList.Count - 12);
+
+        if (highscores.highscoreEntryList.Count > 12)
+        {
+            highscores.highscoreEntryList.RemoveRange(12, highscores.highscoreEntryList.Count - 12);
+        }
 
         foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList) {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
